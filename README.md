@@ -2,4 +2,4 @@
 这是一个二手书交易系统    
 这只是为了应付作业而做的    
 只有基本的注册，登录，发布，搜索    
-前端使用了vue和bootstrap，后台使用了php个mysql    
+前端使用了vue和bootstrap，后台使用了php和mysql    
