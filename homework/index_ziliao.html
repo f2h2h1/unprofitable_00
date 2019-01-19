@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd”>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" >
+        <title>我的第一个 HTML 页面</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div style="margin:0 auto;width: 200px;height: 115px;z-index: 1;">
+                    <img src="img/header2.png" style="display:block;width: 198px;height: 150px;">
+                </div>
+            </div>
+            <div class="nav">
+                <a href="index.html">主页</a> | <a href="index_ziliao.html">游戏资料</a> | <a href="index_register.html">注册</a>
+            </div>
+            <div class="aside">
+                <ul>
+                    <li><a href="index_video.html" >召唤师之谷</a></li>
+                    <li class="folder">
+                        <a href="#" >二级菜单</a>
+                        <ul >
+                            <li><a href="http://lol.qq.com/main.shtml" >2015 季后赛</a></li>
+                            <li><a href="http://lol.qq.com/webplat/info/news_version3/152/4579/4581/m3106/201510/393024.shtml" >2016 季前赛</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index_hero.html">英雄</a></li>
+                    <li><a href="index_ziliao2.html">排位</a></li>
+                    <li><a href="index_strategy.html">功略</a></li>
+                </ul>
+                <img src="img/gif.gif" width="180" height="150" alt="">
+                <div class="TabbedPanels">
+                    <div class="TabbedPanelsTabGroup">
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab1" onmouseover="ChangeTabbedPanelsover(1)"onmouseout="ChangeTabbedPanelsout(1)">寒冰射手</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab2" onmouseover="ChangeTabbedPanelsover(2)"onmouseout="ChangeTabbedPanelsout(2)">德码西亚之力</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab3" onmouseover="ChangeTabbedPanelsover(3)"onmouseout="ChangeTabbedPanelsout(3)">流浪法师</span>
+                    </div>
+                    <div class="TabbedPanelsContentGroup">
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent1" style="display:block"><img src="img/Ashe_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent2" ><img src="img/Garen_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent3" ><img src="img/Ryze_Splash_0.jpg" width="175" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                
+                <h2>英雄联盟的历史</h2>
+                <img id="bjgs" src="img/bjgs_2.jpg" onMouseOver="this.src='img/bjgs_1.jpg'" onMouseOut="this.src='img/bjgs_2.jpg'">
+                <p style="text-align:left;">
+                    &nbsp;&nbsp;直到二十年前，符文之地才从战乱中解脱。这片大陆上的人民自远古以来就习惯结群而斗，用战争解决纷争。而不论何时，战争的工具始终都是魔法。军队用法术和符文武装自己，英雄们打造出大部分魔法物品率领部队彼此厮杀。召唤师，瓦洛兰大陆的实际领导者们，他们疯狂使用魔法能量攻击敌人的部队和支持者。他们拥有近乎无限的原始魔法力量，从未考虑过无止境的滥用魔法会给这片大陆的环境带来怎样的灾难。
+                    然而近200年来无止境的魔法滥用让瓦洛兰的人民看到了符文之地的脆弱现状。最后两次符文之战极大地影响了瓦洛兰的地质环境，尽管人们试图聚集魔法能量来恢复这灾难性的后果，却毫无作用。剧烈的地震和恐怖的魔法风暴让整个瓦洛兰为之颤抖，对人们来说这份恐惧远超过战争的可怖。人们终于意识到世界已经承受不起符文之战的破坏
+                    为了回应世界上不断恶化的政治和经济危机，瓦洛兰的大法师们——包括许多强大的召唤师——达成共识，所有的冲突必须以可控和系统化的方式来处理。他们成立了一个叫英雄联盟的组织，目的在于监督瓦洛兰的政治纷争，使其得以有序处理。位于战争学院的英雄联盟得到瓦洛兰政治实体们陆续授权，这个组织将管理、处置所有政治纷争所带来的结果。
+                    英雄联盟决定，所有重大的政治纷争须通过专门设立在瓦洛兰各地的竞技场来处理。拥有不同政见的召唤师们各自召唤一个英雄，这些英雄们带领没有心智意识的小兵进行战斗，这些小兵由初阶召唤者通过水晶枢纽产生。它们将在竞技场内中对决，达成任务的目标获取胜利。而其中最常见的胜利条件为摧毁对方的水晶枢纽。这些竞技场即是我们通常提到的正义之地。
+                    虽然主要的政治冲突已经通过英雄联盟进行了处理，但敌对政治实体间仍不断出现冲突。英雄联盟通过一项战略性对策，在对立的德玛西亚和诺克萨斯之间建立了战争学院,虽然零星的武装冲突时有发生，但两者几乎停止了所有的直接对抗，。现在好战的诺克萨斯最高指挥部已经把目标转移到了征服近海地区。虽然所有的政治实体都忍受着英雄联盟的管理，但没人傻到去招惹如此多的强大法师、召唤师和英雄。
+                    由英雄联盟管理、在正义之地展开的战斗对瓦洛兰而言，不仅有着极大的政治意义，还有巨大的社会价值。英雄联盟通过魔法将战场的影像和音像传送到魔法接收器上展示出来，观看正义之地的战斗已经成为瓦洛兰居民越来越热衷的娱乐项目。
+                    英雄联盟由著名的最高公正议会监管，议会则由三位强大的高级召唤师组成。自从5年前，前最高议员雷吉纳德•阿什拉姆神秘消失后，拉里瓦什接替了他的职位。公正议会不仅要领导英雄联盟，同时也担任着瓦洛兰最高裁判所的职责，裁决瓦洛兰各政治势力的冲突。
+                    英雄联盟特使：特使被派遣到瓦洛兰各个城邦展现联盟的意志。此外，特使还是联盟在城邦的代表。
+                    审判者：审判者是指派到各个正义之地裁决比赛的仲裁人员。
+                    议会：这个以高阶召唤者为主体的组织负责解决瓦洛兰的政治纠纷。议会竞技场的战斗结果来裁决纠纷。
+                    英雄联盟通过内部组织的形式来完成各种任务。英雄联盟会向每个城邦都委派一位联盟密使，他们是当地维护联盟关系的外交官。密使也是联盟在城邦的政治代表。审判者是委派到各个正义之地裁决比赛的仲裁人员。议会是以高阶召唤师为主体的组织，负责解决瓦洛兰的政治纷争。议会以竞技场的战斗胜负来裁决纷争
+                </p>
+                
+            </div>
+            
+        </div>
+        <div class="footer" >
+            <table style="float:right;color:rgb(255,255,255)">
+                <tr><td colspan="2">Copyright 2010 Meridien GreenStart All rights reserved</td></tr>
+                <tr style="background-color:rgb(0,0,0);"><td>电话</td><td>邮箱</td></tr>
+                <tr><td><a href="tel:1234567890">1234567890</a></td><td><a href="mailto:1234567890@gmail.com">1234567890@gmail.com</a></td></tr>
+            </table>
+        </div>
+    </body>
+    <script src="js/main.js" type="text/javascript"></script>
+</html>

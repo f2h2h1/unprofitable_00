@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd”>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" >
+        <title>我的第一个 HTML 页面</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div style="margin:0 auto;width: 200px;height: 115px;z-index: 1;">
+                    <img src="img/header2.png" style="display:block;width: 198px;height: 150px;">
+                </div>
+            </div>
+            <div class="nav">
+                <a href="index.html">主页</a> | <a href="index_ziliao.html">游戏资料</a> | <a href="index_register.html">注册</a>
+            </div>
+            <div class="aside">
+                <ul>
+                    <li><a href="index_video.html" >召唤师之谷</a></li>
+                    <li class="folder">
+                        <a href="#" >二级菜单</a>
+                        <ul >
+                            <li><a href="http://lol.qq.com/main.shtml" >2015 季后赛</a></li>
+                            <li><a href="http://lol.qq.com/webplat/info/news_version3/152/4579/4581/m3106/201510/393024.shtml" >2016 季前赛</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index_hero.html">英雄</a></li>
+                    <li><a href="index_video.html">排位</a></li>
+                    <li><a href="index_strategy.html">功略</a></li>
+                </ul>
+                <img src="img/gif.gif" width="180" height="150" alt="">
+                <div class="TabbedPanels">
+                    <div class="TabbedPanelsTabGroup">
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab1" onmouseover="ChangeTabbedPanelsover(1)"onmouseout="ChangeTabbedPanelsout(1)">寒冰射手</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab2" onmouseover="ChangeTabbedPanelsover(2)"onmouseout="ChangeTabbedPanelsout(2)">德码西亚之力</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab3" onmouseover="ChangeTabbedPanelsover(3)"onmouseout="ChangeTabbedPanelsout(3)">流浪法师</span>
+                    </div>
+                    <div class="TabbedPanelsContentGroup">
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent1" style="display:block"><img src="img/Ashe_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent2" ><img src="img/Garen_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent3" ><img src="img/Ryze_Splash_0.jpg" width="175" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                
+                <h1>英雄联盟</h1>
+                <div class="accordion">
+                    <div class="accordion-header" id="accordion-header1" onclick="accrodion(1)">游戏背景(点击折叠)</div>
+                    <div class="accordion-content" id="accordion-content1">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        符文之地 在符文之地，魔法就是一切。符文之地 
+                        在这里，魔法不只是一种神秘莫测的能量概念。它是实体化的物质，可以被引导、成形、塑造和操作。符文之地的魔法拥有自己的自然法则。源生态魔法随机变化的结果改变了科学法则。
+                        符文之地有数块大陆，不过所有的生命都集中在最大魔法大陆——瓦洛兰。瓦洛兰大陆居于符文之地中心，是符文之地面积最大的大陆。
+                        被祝福的符文之地上有大量源生态魔法能量，而此地居民可以触及其中的能量。符文之地的中心区域集中了数量巨大的源生态魔法能量，这些地方都是水晶枢纽的理想位置。水晶枢纽可以将源生能量塑形为自身实体化的存在。此外，水晶枢纽还可以成为能量车间，为需要魔法能量的建筑供能。水晶枢纽遍布符文之地，但最大的水晶枢纽都坐落在瓦洛兰大陆。</div>
+                    <div class="accordion-header" id="accordion-header2" onclick="accrodion(2)">战争学院</div>
+                    <div class="accordion-content" id="accordion-content2">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        对中立的领土，严禁任何纷争。违反者将面对学院的士兵和魔法。学院坐落于一座巨型水晶枢纽之上，由黑曜石、贵金属和魔法塑形而成。它位于莫格罗恩关隘的北方入口，刚好位于相互敌对的城邦德玛西亚和诺克萨斯之间。
+                        除了作为英雄联盟所在地，战争学院还是瓦洛兰最权威的军事培训机构。很多图书馆都致力于收录战争学院的英雄信息，并向所有研究者开放。[1]  
+                        战争学院内部是马约里斯秘术中心，部分是魔法学校，部分是法术储藏地，还有一部分是雇佣经纪处。马约里斯秘术中心是召唤师们交易游戏金币的中心，无论新手还是大师都可以在这里花费自己从正义之地挣得的金币，换取他们感兴趣的物件。召唤师可以在此消耗金币，换取召唤新保卫者化身的能力
+                    </div>
+                    <div class="accordion-header" id="accordion-header3" onclick="accrodion(3)">艾欧尼亚</div>
+                    <div class="accordion-content" id="accordion-content3">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        从巫毒之地一直到海岸线的重峦叠嶂之间，有一处被遗忘之地。大家都认为那是一片荒原，毁灭于远古符文之战的遗迹。然而，这不过是艾卡西亚的表象。误入罪恶之地的旅客通常的命运是死亡或被人遗忘，不过无论哪一种或许都是种解脱。这里是毁灭之地，远古城市的遗迹漫天迷雾，尽是奇形怪状巨大腐朽的石像，并且都是些黑暗恐怖的神祗。这里崇拜的是无尽虚空的生物。
+                        艾卡西亚仍有人居住，他们是当初这个黑暗之地建造者们的堕落后裔。几乎所有的本地居民都祖辈相传演戏来自无尽虚空的远古魔法。他们等待了数代人之久，一直在研习禁断书籍内被遗忘的预言。
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="footer" >
+            <table style="float:right;color:rgb(255,255,255)">
+                <tr><td colspan="2">Copyright 2010 Meridien GreenStart All rights reserved</td></tr>
+                <tr style="background-color:rgb(0,0,0);"><td>电话</td><td>邮箱</td></tr>
+                <tr><td><a href="tel:1234567890">1234567890</a></td><td><a href="mailto:1234567890@gmail.com">1234567890@gmail.com</a></td></tr>
+            </table>
+        </div>
+    </body>
+    <script src="js/main.js" type="text/javascript"></script>
+</html>

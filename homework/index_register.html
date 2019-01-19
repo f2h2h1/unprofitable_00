@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd”>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" >
+        <title>我的第一个 HTML 页面</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div style="margin:0 auto;width: 200px;height: 115px;z-index: 1;">
+                    <img src="img/header2.png" style="display:block;width: 198px;height: 150px;">
+                </div>
+            </div>
+            <div class="nav">
+                <a href="index.html">主页</a> | <a href="index_ziliao.html">游戏资料</a> | <a href="index_register.html">注册</a>
+            </div>
+            <div class="aside">
+                <ul>
+                    <li><a href="index_video.html" >召唤师之谷</a></li>
+                    <li class="folder">
+                        <a href="#" >二级菜单</a>
+                        <ul >
+                            <li><a href="http://lol.qq.com/main.shtml" >2015 季后赛</a></li>
+                            <li><a href="http://lol.qq.com/webplat/info/news_version3/152/4579/4581/m3106/201510/393024.shtml" >2016 季前赛</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index_hero.html">英雄</a></li>
+                    <li><a href="index_ziliao2.html">排位</a></li>
+                    <li><a href="index_strategy.html">功略</a></li>
+                </ul>
+                <img src="img/gif.gif" width="180" height="150" alt="">
+                <div class="TabbedPanels">
+                    <div class="TabbedPanelsTabGroup">
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab1" onmouseover="ChangeTabbedPanelsover(1)"onmouseout="ChangeTabbedPanelsout(1)">寒冰射手</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab2" onmouseover="ChangeTabbedPanelsover(2)"onmouseout="ChangeTabbedPanelsout(2)">德码西亚之力</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab3" onmouseover="ChangeTabbedPanelsover(3)"onmouseout="ChangeTabbedPanelsout(3)">流浪法师</span>
+                    </div>
+                    <div class="TabbedPanelsContentGroup">
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent1" style="display:block"><img src="img/Ashe_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent2" ><img src="img/Garen_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent3" ><img src="img/Ryze_Splash_0.jpg" width="175" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                
+                <h1>注册帐号</h1>
+                <form style="text-align:left;color:rgb(255,255,255)" action="rukou1.php" name="myform" >
+                    <fieldset>
+                        <legend>帐号信息</legend>
+                        <label for="nickname">呢称</label>
+                        <input type="text" id="nickname" placeholder="必填" required="required"title="请输入呢称"/>
+                        <label for="email">邮箱</label>
+                        <input type="email" id="email" onBlur=""placeholder="必填" required="required"title="请输入邮箱"  />
+                    </fieldset>
+                    <fieldset>
+                        <legend>密码</legend>
+                        <label for="password">密码</label>
+                        <input type="password" id="password" placeholder="必填" required="required"title="请输入密码"/>
+                        <label for="password2">确认密码</label>
+                        <input type="password" id="password2" onBlur="onBlurpassword()" placeholder="必填" required="required"title="请输入确认密码"/>
+                    </fieldset>
+                    <fieldset>
+                        
+                        <legend>个人信息</legend>
+                        <table cellspacing="10">
+                            <tr><td>性别</td><td>英雄</td></tr>
+                            <tr>
+                                <td>
+                                    <label for="male">男性：</label>	
+                                    <input type="radio" checked="checked" name="Sex" value="male" id="male"/>
+                                    <br />
+                                    <label for="female">女性：</label>
+                                    <input type="radio" name="Sex" value="female" id="female"/>	
+                                </td>
+                                <td>
+                                    <label for="Ashe">寒冰射手</label>
+                                    <input type="checkbox" name="hero" value="Ashe" id="Ashe" checked="checked" />
+                                    <br />
+                                    <label for="Garen">德码西亚之力</label>
+                                    <input type="checkbox" name="hero2" value="Garen" id="Garen" />
+                                    <label for="Ryze">流浪法师</label>
+                                    <input type="checkbox" name="hero3" value="Ryze" id="Ryze" />
+                                </td>	
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset>
+                        <legend>其他信息</legend>
+                        <label for="qu">区</label>
+                        <select id="qu" name="qu" required="required">
+                            <optgroup label="电信">
+                                <option value="volvo" checked="checked" >艾欧尼亚</option>
+                                <option value="saab">弗雷尔卓德</option>
+                            </optgroup>
+                            <optgroup label="联通">
+                                <option value="mercedes">战争学院</option>
+                                <option value="audi">影流</option>
+                            </optgroup>
+                        </select>
+                        
+                        <label for="qm">签名</label>
+                        <textarea rows="3" cols="20" id="qm" name="qm" required="required">
+                            
+                        </textarea>
+                    </fieldset>
+                    <div style="text-align:center;padding-top:10px;">
+                        <button type="subimt">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="reset">重置</button>
+                    </div>   
+                </form>
+                
+                
+                
+                
+            </div>
+        </div>
+        <div class="footer" >
+            <table style="float:right;color:rgb(255,255,255)">
+                <tr><td colspan="2">Copyright 2010 Meridien GreenStart All rights reserved</td></tr>
+                <tr style="background-color:rgb(0,0,0);"><td>电话</td><td>邮箱</td></tr>
+                <tr><td><a href="tel:1234567890">1234567890</a></td><td><a href="mailto:1234567890@gmail.com">1234567890@gmail.com</a></td></tr>
+            </table>
+        </div>
+    </body>
+    <script src="js/main.js" type="text/javascript"></script>
+</html>

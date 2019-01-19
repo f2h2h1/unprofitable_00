@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Strict//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd”>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" >
+        <title>我的第一个 HTML 页面</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div style="margin:0 auto;width: 200px;height: 115px;z-index: 1;">
+                    <img src="img/header2.png" style="display:block;width: 198px;height: 150px;">
+                </div>
+            </div>
+            <div class="nav">
+                <a href="index.html">主页</a> | <a href="index_ziliao.html">游戏资料</a> | <a href="index_register.html">注册</a>
+            </div>
+            <div class="aside">
+                <ul>
+                    <li><a href="index_video.html" >召唤师之谷</a></li>
+                    <li class="folder">
+                        <a href="#" >二级菜单</a>
+                        <ul >
+                            <li><a href="http://lol.qq.com/main.shtml" >2015 季后赛</a></li>
+                            <li><a href="http://lol.qq.com/webplat/info/news_version3/152/4579/4581/m3106/201510/393024.shtml" >2016 季前赛</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index_hero.html">英雄</a></li>
+                    <li><a href="index_ziliao2.html">排位</a></li>
+                    <li><a href="index_strategy.html">功略</a></li>
+                </ul>
+                <img src="img/gif.gif" width="180" height="150" alt="">
+                <div class="TabbedPanels">
+                    <div class="TabbedPanelsTabGroup">
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab1" onmouseover="ChangeTabbedPanelsover(1)"onmouseout="ChangeTabbedPanelsout(1)">寒冰射手</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab2" onmouseover="ChangeTabbedPanelsover(2)"onmouseout="ChangeTabbedPanelsout(2)">德码西亚之力</span>
+                        <span class="TabbedPanelsTab" id="TabbedPanelsTab3" onmouseover="ChangeTabbedPanelsover(3)"onmouseout="ChangeTabbedPanelsout(3)">流浪法师</span>
+                    </div>
+                    <div class="TabbedPanelsContentGroup">
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent1" style="display:block"><img src="img/Ashe_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent2" ><img src="img/Garen_Splash_0.jpg" width="175" alt=""></div>
+                        <div class="TabbedPanelsContent" id="TabbedPanelsContent3" ><img src="img/Ryze_Splash_0.jpg" width="175" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                <h1>召唤师之谷</h1>
+                <video src="media\英雄联盟 LOL 主题曲 Summoner's Call_超清_clip_Compress_自定义转码_480x320.MP4" type="video/mp4" controls="controls">
+                    <embed 
+                    id="media_video_1"
+                    type="video/x-ms-wmv" 
+                    src="media\英雄联盟 LOL 主题曲 Summoner's Call_超清_clip_Compress.WMV" 
+                    width="50%" height="50%" 
+                    autostart="true" showcontrols="true" 
+                    allowfullscreen="true" ShowStatusBar="1" autostart="1" uiMode="full"
+                    pluginspage="http://www.microsoft.com/Windows/MediaPlayer/"
+                    style="z-index:9;"
+                    ></embed>
+            </video>
+        </div>
+        
+    </div>
+    <div class="footer" >
+        <table style="float:right;color:rgb(255,255,255)">
+            <tr><td colspan="2">Copyright 2010 Meridien GreenStart All rights reserved</td></tr>
+            <tr style="background-color:rgb(0,0,0);"><td>电话</td><td>邮箱</td></tr>
+            <tr><td><a href="tel:1234567890">1234567890</a></td><td><a href="mailto:1234567890@gmail.com">1234567890@gmail.com</a></td></tr>
+        </table>
+    </div>
+</body>
+<script src="js/main.js" type="text/javascript"></script>
+</html>
