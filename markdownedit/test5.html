@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Monaco Editor Sample</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<style>
+		.markdownele {
+			padding: 10px;
+		}
+		.markdownele .code {
+			background-color: rgb(20, 17, 17);
+			padding: 10px;
+			margin-left: 30px;
+		}
+		.markdownele li .code {
+			margin-top: 10px;
+			margin-bottom: 10px;
+			margin-left: 0px;
+		}
+	</style>
+</head>
+<body>
+
+<h2>Monaco Editor Sample</h2>
+<button id="rendering">rendering</button>
+<div style="display:flex;">
+	<div id="markdown-edit" style="height:600px;border:1px solid grey;display:inline-block;flex:1;"></div>
+	<div id="markdow-nrend" style="height:600px;border:1px solid grey;display:inline-block;flex:1;overflow: auto;background-color: rgb(30, 30, 30);"></div>
+</div>
+
+<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
+<script src="monaco-editor/min/vs/loader.js"></script>
+<script>
+	require.config({
+		paths: {
+			'vs': 'monaco-editor/dev/vs'
+		}
+	});
+
+	require(['vs/editor/editor.main', 'vs/base/browser/htmlContentRenderer'], function(monaco, htmlContentRenderer) {
+
+	var editor = monaco.editor.create(document.getElementById('markdown-edit'), {
+			value: '',
+			language: 'markdown',
+			renderWhitespace: "all",
+			minimap: {enabled: false},
+			theme: 'vs-dark'
+		});
+		console.log(editor);
+		document.getElementById('rendering').onclick = function() {
+
+			markdownEle = htmlContentRenderer.renderMarkdown(
+				{
+					value : editor.getValue(),
+				},
+				{
+				inline: false,
+				codeBlockRenderer: async function (languageAlias, value) {
+						return await monaco.editor.colorize(value, languageAlias)
+					}
+				}
+			);
+			markdownEle.className = 'monaco-editor ff vs-dark markdownele';
+			markdownEle.width = '782px';
+			markdownEle.height = '600px';
+			document.getElementById('markdow-nrend').innerHTML = '';
+			document.getElementById('markdow-nrend').appendChild(markdownEle);
+		}
+	});
+</script>
+</body>
+</html>
