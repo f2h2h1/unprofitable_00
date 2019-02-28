@@ -1,0 +1,6 @@
+{
+    "require": {
+        "slim/php-view": "^2.2",
+        "doctrine/orm": "^2.6"
+    }
+}
