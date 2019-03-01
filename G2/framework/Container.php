@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+namespace GPojectPHP;
 
 class Container
 {
@@ -14,7 +14,7 @@ class Container
 		}
 
 		// 通过反射获取反射类
-		$reflectionClass = new ReflectionClass($className);
+		$reflectionClass = new \ReflectionClass($className);
 
 		// 查看是否可以实例化
 		if (!$reflectionClass->isInstantiable())
@@ -24,6 +24,11 @@ class Container
 
 		$key = $alias === '' ? $className : $alias;
 		$this->bind[$key] = $reflectionClass->newInstanceArgs($param);
+	}
+
+	public function add(object $object, string $name) : void
+	{
+		$this->bind[$name] = $object;
 	}
 
 	public function get($key) : ?object
