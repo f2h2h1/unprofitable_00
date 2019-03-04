@@ -11,6 +11,6 @@ require_once POJECT_ROOT."/app/bootstrap.php";
 // 加载用于依赖注入的容器
 require_once POJECT_ROOT."/framework/Container.php";
 // 注册自动加载函数
-require_once POJECT_ROOT."/framework/Autoload.php";
+// require_once POJECT_ROOT."/framework/Autoload.php";
 // 加载路由
 require_once POJECT_ROOT."/framework/Route.php";

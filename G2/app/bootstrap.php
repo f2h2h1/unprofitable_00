@@ -17,6 +17,6 @@ $conn = array(
     'driver' => 'pdo_sqlite',
     'path' => __DIR__ . '/db.sqlite',
 );
-
+$config->setProxyNamespace('GPojectPHP\Models');
 // obtaining the entity manager
 $entityManager = EntityManager::create($conn, $config);

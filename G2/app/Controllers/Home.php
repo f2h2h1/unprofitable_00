@@ -1,37 +1,50 @@
 <?php
 namespace GPojectPHP\Controllers;
 
-use \GPojectPHP\Container as Container;
-use \GPojectPHP\Models\Product;
+use GPojectPHP\Container;
+use GPojectPHP\Dao\UserDao;
 
 class Home extends Main
 {
-	public function index() : string
-	{
-		return 'hello world';
+	public function index() : ?string
+	{	
+		// header('Location: index.php?r=Home/login');
+		return $this->redirect('login');
 	}
 
-	public function html() : string
+	public function login() : ?string
 	{
-		$templatePath = 'index.php';
-		return $this->container->get('PhpRenderer')->fetch($templatePath, ['name' => 'tony']);
-	}
+		if ($this->isLogin())
+		{
+			return $this->redirect('Admin/index');
+		}
+		if (IS_GET)
+		{
+			return $this->view();
+		}
+		else
+		{
+			$name = $_POST['username'];
+			$password = $_POST['password'];
+			$userDao = new UserDao($this->container->get('entityManager'));
+			$user = $userDao->login($name, $password);
 
-	public function addProduct() : string
-	{
-		$newProductName = 'test';
-		$product = new Product();
-		$product->setName($newProductName);
-		$entityManager = $this->container->get('entityManager');
-		$entityManager->persist($product);
-		$entityManager->flush();
+			if ($user !== null)
+			{
+				// 登录成功
+				$_SESSION['user'] = $user;
+				$this->user = $user;
 
-		$templatePath = 'index.php';
-		return $this->container->get('PhpRenderer')->fetch($templatePath, ['name' => $product->getId()]);
-	}
-
-	public function viewTest() : string
-	{
-		return $this->view(['test'=>'qwesdsfsd']);
+				// return $this->view(['model' => $ret[0]], 'index');
+				// header('Location: index.php?r=Admin/index');
+				return $this->redirect('Admin/index');
+			}
+			else
+			{
+				// 登录失败
+				$this->setAlertMsg('登录失败', 'danger');
+				return $this->view();
+			}
+		}
 	}
 }

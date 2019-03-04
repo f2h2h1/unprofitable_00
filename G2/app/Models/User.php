@@ -3,37 +3,39 @@
 namespace GpojectPHP\Models;
 
 /**
- * User
+ * @Entity @Table(name="user")
  */
 class User
 {
     /**
-     * @var int
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
      */
     private $id;
 
     /**
-     * @var string
+     * @Column(type="string")
      */
     private $name;
 
     /**
-     * @var string
+     * @Column(type="string")
      */
     private $password;
 
     /**
-     * @var int
+     * @Column(type="integer")
      */
     private $role;
 
     /**
-     * @var int
+     * @Column(type="integer")
      */
     private $createtime;
 
     /**
-     * @var int
+     * @Column(type="integer")
      */
     private $updatetime;
 
