@@ -1,7 +1,6 @@
 <?php
 namespace GPojectPHP\Dao;
 
-use GPojectPHP\Container;
 use GPojectPHP\Models\User;
 
 class UserDao extends MainDao
@@ -67,7 +66,7 @@ class UserDao extends MainDao
 		return true;
 	}
 
-	public function add(string $username, string $password, int $role) : bool
+	public function add(string $username, string $password, int $role) : ?int
 	{
 		$timestamp = time();
 		$user = new User();
@@ -80,7 +79,7 @@ class UserDao extends MainDao
 		$this->entityManager->persist($user);
 		$this->entityManager->flush();
 
-		return true;
+		return $user->getId();
 	}
 
 	public function del(int $id) : bool

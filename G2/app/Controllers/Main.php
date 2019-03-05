@@ -107,12 +107,25 @@ class Main
 		unset($_SESSION['alertMsg']);
 	}
 
-	protected function redirect($route) : void
+	protected function redirect(string $route, array $parameter = []) : void
 	{
 		if (strpos($route, '/') === false)
 		{
 			$route = $this->controller.'/'.$route;
 		}
-		header('Location: index.php?r='.$route);
+		$url = 'index.php?r='.$route;
+
+		if (count($parameter) > 0)
+		{
+			$parameter = http_build_query($parameter);
+			$url .= '&'.$parameter;
+		}
+
+		header('Location: '.$url);
+	}
+
+	protected function goback() : string
+	{
+		return '<script>history.back();</script>';
 	}
 }

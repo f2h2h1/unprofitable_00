@@ -1,112 +1,115 @@
 <?php
 
-namespace GpojectPHP\Models;
+namespace GPojectPHP\Models;
 
 /**
- * Classes
+ * @Entity
+ * @Table(name="classes")
  */
 class Classes
 {
-    /**
-     * @var int
-     */
-    private $id;
+	/**
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @Column(type="string")
+	 */
+	private $name;
 
-    /**
-     * @var int
-     */
-    private $number;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $number;
 
-    /**
-     * @var int
-     */
-    private $createtime;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $createtime;
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Classes
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
+	/**
+	 * Set name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Classes
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	
+		return $this;
+	}
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set number.
-     *
-     * @param int $number
-     *
-     * @return Classes
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-    
-        return $this;
-    }
+	/**
+	 * Set number.
+	 *
+	 * @param int $number
+	 *
+	 * @return Classes
+	 */
+	public function setNumber($number)
+	{
+		$this->number = $number;
+	
+		return $this;
+	}
 
-    /**
-     * Get number.
-     *
-     * @return int
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
+	/**
+	 * Get number.
+	 *
+	 * @return int
+	 */
+	public function getNumber()
+	{
+		return $this->number;
+	}
 
-    /**
-     * Set createtime.
-     *
-     * @param int $createtime
-     *
-     * @return Classes
-     */
-    public function setCreatetime($createtime)
-    {
-        $this->createtime = $createtime;
-    
-        return $this;
-    }
+	/**
+	 * Set createtime.
+	 *
+	 * @param int $createtime
+	 *
+	 * @return Classes
+	 */
+	public function setCreatetime($createtime)
+	{
+		$this->createtime = $createtime;
+	
+		return $this;
+	}
 
-    /**
-     * Get createtime.
-     *
-     * @return int
-     */
-    public function getCreatetime()
-    {
-        return $this->createtime;
-    }
+	/**
+	 * Get createtime.
+	 *
+	 * @return int
+	 */
+	public function getCreatetime()
+	{
+		return $this->createtime;
+	}
 }

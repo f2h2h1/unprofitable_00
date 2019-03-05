@@ -1,8 +1,23 @@
-<h4>新建用户</h4>
+<h4>新建教师</h4>
 <hr />
 <div class="row">
 	<div class="col-md-4">
 		<form method="post">
+			<div class="form-group">
+				<label class="control-label"> 姓名
+					<input class="form-control" name="name"/>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label"> 任教学科
+					<input class="form-control" name="subjectid"/>
+				</label>
+			</div>
+			<div class="form-group">
+				<label asp-for="Role" class="control-label"> 负责班级
+					<input class="form-control" name="classid"/>
+				</label>
+			</div>
 			<div class="form-group">
 				<label class="control-label"> 登录名
 					<input class="form-control" name="username"/>
@@ -11,14 +26,6 @@
 			<div class="form-group">
 				<label class="control-label"> 密码
 					<input class="form-control" name="password"/>
-				</label>
-			</div>
-			<div class="form-group">
-				<label asp-for="Role" class="control-label"> 角色
-					<select class="form-control" name="role">
-						<option value="2">教师</option>
-						<option value="3">学生</option>
-					</select>
 				</label>
 			</div>
 			<div class="form-group">

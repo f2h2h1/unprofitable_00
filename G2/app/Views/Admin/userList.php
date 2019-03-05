@@ -14,6 +14,7 @@
 		</tr>
 	</thead>
 	<tbody>
+		<?php if (is_array($modelList) && count($modelList) > 0):?>
 		<?php foreach($modelList as $item):?>
 		<tr>
 			<td>
@@ -45,5 +46,6 @@
 			</td>
 		</tr>
 		<?php endforeach;?>
+		<?php endif;?>
 	</tbody>
 </table>

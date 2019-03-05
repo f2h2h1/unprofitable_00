@@ -31,7 +31,24 @@
 				<ul class="navbar-nav flex-grow-1">
 					<?php if ($userRole === 1):?>
 						<li class="nav-item">
-							<a class="nav-link" href="index.php?r=Admin/userList">用户管理</a>
+							<a class="nav-link" href="index.php?r=Admin/userList">用户列表</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Admin/subjectList">学科列表</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Admin/teacherList">教师列表</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Admin/classesList">班级列表</a>
+						</li>
+					<?php endif;?>
+					<?php if ($userRole === 2):?>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Knowledge/knowledgeList">知识点列表</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Knowledge/studymaterialsList">学习资料</a>
 						</li>
 					<?php endif;?>
 					<li class="nav-item">

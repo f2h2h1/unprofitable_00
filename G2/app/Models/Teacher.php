@@ -1,170 +1,173 @@
 <?php
 
-namespace GpojectPHP\Models;
+namespace GPojectPHP\Models;
 
 /**
- * Teacher
+ * @Entity
+ * @Table(name="teacher")
  */
 class Teacher
 {
-    /**
-     * @var int
-     */
-    private $id;
+	/**
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
+	 */
+	private $id;
 
-    /**
-     * @var int
-     */
-    private $userid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $userid;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @Column(type="string")
+	 */
+	private $name;
 
-    /**
-     * @var int
-     */
-    private $subjectid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $subjectid;
 
-    /**
-     * @var int
-     */
-    private $classid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $classid;
 
-    /**
-     * @var int
-     */
-    private $createtime;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $createtime;
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set userid.
-     *
-     * @param int $userid
-     *
-     * @return Teacher
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    
-        return $this;
-    }
+	/**
+	 * Set userid.
+	 *
+	 * @param int $userid
+	 *
+	 * @return Teacher
+	 */
+	public function setUserid($userid)
+	{
+		$this->userid = $userid;
+	
+		return $this;
+	}
 
-    /**
-     * Get userid.
-     *
-     * @return int
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
+	/**
+	 * Get userid.
+	 *
+	 * @return int
+	 */
+	public function getUserid()
+	{
+		return $this->userid;
+	}
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Teacher
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
+	/**
+	 * Set name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Teacher
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	
+		return $this;
+	}
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set subjectid.
-     *
-     * @param int $subjectid
-     *
-     * @return Teacher
-     */
-    public function setSubjectid($subjectid)
-    {
-        $this->subjectid = $subjectid;
-    
-        return $this;
-    }
+	/**
+	 * Set subjectid.
+	 *
+	 * @param int $subjectid
+	 *
+	 * @return Teacher
+	 */
+	public function setSubjectid($subjectid)
+	{
+		$this->subjectid = $subjectid;
+	
+		return $this;
+	}
 
-    /**
-     * Get subjectid.
-     *
-     * @return int
-     */
-    public function getSubjectid()
-    {
-        return $this->subjectid;
-    }
+	/**
+	 * Get subjectid.
+	 *
+	 * @return int
+	 */
+	public function getSubjectid()
+	{
+		return $this->subjectid;
+	}
 
-    /**
-     * Set classid.
-     *
-     * @param int $classid
-     *
-     * @return Teacher
-     */
-    public function setClassid($classid)
-    {
-        $this->classid = $classid;
-    
-        return $this;
-    }
+	/**
+	 * Set classid.
+	 *
+	 * @param int $classid
+	 *
+	 * @return Teacher
+	 */
+	public function setClassid($classid)
+	{
+		$this->classid = $classid;
+	
+		return $this;
+	}
 
-    /**
-     * Get classid.
-     *
-     * @return int
-     */
-    public function getClassid()
-    {
-        return $this->classid;
-    }
+	/**
+	 * Get classid.
+	 *
+	 * @return int
+	 */
+	public function getClassid()
+	{
+		return $this->classid;
+	}
 
-    /**
-     * Set createtime.
-     *
-     * @param int $createtime
-     *
-     * @return Teacher
-     */
-    public function setCreatetime($createtime)
-    {
-        $this->createtime = $createtime;
-    
-        return $this;
-    }
+	/**
+	 * Set createtime.
+	 *
+	 * @param int $createtime
+	 *
+	 * @return Teacher
+	 */
+	public function setCreatetime($createtime)
+	{
+		$this->createtime = $createtime;
+	
+		return $this;
+	}
 
-    /**
-     * Get createtime.
-     *
-     * @return int
-     */
-    public function getCreatetime()
-    {
-        return $this->createtime;
-    }
+	/**
+	 * Get createtime.
+	 *
+	 * @return int
+	 */
+	public function getCreatetime()
+	{
+		return $this->createtime;
+	}
 }

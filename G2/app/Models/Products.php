@@ -1,6 +1,6 @@
 <?php
 
-namespace GpojectPHP\Models;
+namespace GPojectPHP\Models;
 
 /**
  * Products

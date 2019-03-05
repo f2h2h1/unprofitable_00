@@ -3,6 +3,10 @@ namespace GPojectPHP\Controllers;
 
 use GPojectPHP\Container;
 use GPojectPHP\Dao\UserDao;
+use GPojectPHP\Dao\SubjectDao;
+use GPojectPHP\Dao\ClassesDao;
+use GPojectPHP\Dao\StudentDao;
+use GPojectPHP\Dao\TeacherDao;
 
 class Admin extends Main
 {
@@ -109,7 +113,7 @@ class Admin extends Main
 		}
 
 		$userDao = new UserDao($this->container->get('entityManager'));
-		$user = $userDao->del($id);
+		$userDao->del($id);
 
 		$this->setAlertMsg('删除成功', 'success');
 		return $this->redirect('userList');
@@ -119,13 +123,169 @@ class Admin extends Main
 
 	#region 学科管理
 
+	public function subjectList() : ?string
+	{
+		$subjectDao = new SubjectDao($this->container->get('entityManager'));
+		$modelList = $subjectDao->list();
+		return $this->view(['modelList' => $modelList]);
+	}
+
+	public function subjectCreate() : ?string
+	{
+		if (IS_GET)
+		{
+			return $this->view();
+		}
+		else
+		{
+			$subjectName = $_POST['subjectName'];
+
+			$subjectDao = new SubjectDao($this->container->get('entityManager'));
+			$id = $subjectDao->add($subjectName);
+
+			$this->setAlertMsg('添加成功', 'success');
+			return $this->redirect('subjectList');
+		}
+	}
+
+	public function subjectDelete() : ?string
+	{
+		$id = (int)$_POST['id'];
+
+		$subjectDao = new SubjectDao($this->container->get('entityManager'));
+		$subjectDao->del($id);
+
+		$this->setAlertMsg('删除成功', 'success');
+		return $this->redirect('subjectList');
+	}
+
 	#endregion
 
 	#region 教师管理
 
+	public function teacherList() : ?string
+	{
+		$teacherDao = new TeacherDao($this->container->get('entityManager'));
+		$modelList = $teacherDao->list();
+		return $this->view(['modelList' => $modelList]);
+	}
+
+	public function teacherCreate() : ?string
+	{
+		if (IS_GET)
+		{
+			return $this->view();
+		}
+		else
+		{
+			$name = $_POST['name'];
+			$subjectid = (int)$_POST['subjectid'];
+			$classid = (int)$_POST['classid'];
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+
+			$teacherDao = new TeacherDao($this->container->get('entityManager'));
+			$id = $teacherDao->add($name, $subjectid, $classid, $username, $password);
+
+			$this->setAlertMsg('添加成功', 'success');
+			return $this->redirect('teacherList');
+		}
+	}
+
+	public function teacherDelete() : ?string
+	{
+		$id = (int)$_POST['id'];
+
+		$teacherDao = new TeacherDao($this->container->get('entityManager'));
+		$teacherDao->del($id);
+
+		$this->setAlertMsg('删除成功', 'success');
+		return $this->redirect('teacherList');
+	}
+
 	#endregion
 
 	#region 学生管理
+
+	public function classesList() : ?string
+	{
+		$classesDao = new ClassesDao($this->container->get('entityManager'));
+		$modelList = $classesDao->list();
+		return $this->view(['modelList' => $modelList]);
+	}
+
+	public function classesCreate() : ?string
+	{
+		if (IS_GET)
+		{
+			return $this->view();
+		}
+		else
+		{
+			$classesName = $_POST['classesName'];
+			$number = $_POST['number'];
+
+			$classesDao = new ClassesDao($this->container->get('entityManager'));
+			$classesDao->add($classesName, $number);
+
+			$this->setAlertMsg('添加成功', 'success');
+			return $this->redirect('classesList');
+		}
+	}
+
+	public function classesDelete() : ?string
+	{
+		$id = (int)$_POST['id'];
+
+		$classesDao = new ClassesDao($this->container->get('entityManager'));
+		$classesDao->del($id);
+
+		$this->setAlertMsg('删除成功', 'success');
+		return $this->redirect('classesList');
+	}
+
+	public function studentList() : ?string
+	{
+		$classid = (int)$_GET['id'];
+
+		$studentDao = new StudentDao($this->container->get('entityManager'));
+		$modelList = $studentDao->list($classid);
+		return $this->view(['modelList' => $modelList, 'classid' => $classid]);
+	}
+
+	public function studentCreate() : ?string
+	{
+		if (IS_GET)
+		{
+			$classid = (int)$_GET['classid'];
+
+			return $this->view(['classid' => $classid]);
+		}
+		else
+		{
+			$classid = (int)$_POST['classid'];
+			$name = $_POST['name'];
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+
+			$studentDao = new StudentDao($this->container->get('entityManager'));
+			$studentDao->add($classid, $name, $username, $password);
+
+			$this->setAlertMsg('添加成功', 'success');
+			return $this->redirect('studentList', ['id' => $classid]);
+		}
+	}
+
+	public function studentDelete() : ?string
+	{
+		$id = (int)$_POST['id'];
+
+		$studentDao = new StudentDao($this->container->get('entityManager'));
+		$studentDao->del($id);
+
+		$this->setAlertMsg('删除成功', 'success');
+		return $this->goback();
+	}
 
 	#endregion
 }
