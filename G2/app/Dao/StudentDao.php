@@ -6,7 +6,7 @@ use GPojectPHP\Dao\UserDao;
 
 class StudentDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\Student';
+	protected $objectName = 'GPojectPHP\Models\Student';
 	
 	public function list(int $classid) : ?array
 	{

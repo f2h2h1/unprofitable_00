@@ -5,7 +5,7 @@ use GPojectPHP\Models\Knowledge;
 
 class KnowledgeDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\Knowledge';
+	protected $objectName = 'GPojectPHP\Models\Knowledge';
 
 	public function list() : ?array
 	{
@@ -19,11 +19,11 @@ class KnowledgeDao extends MainDao
 		return $ret;
 	}
 
-	public function add(int $subjetid, string $name, string $describe) : ?int
+	public function add(int $subjectid, string $name, string $describe) : ?int
 	{
 		$timestamp = time();
 		$knowledge = new Knowledge();
-		$knowledge->setSubjetid($subjetid);
+		$knowledge->setSubjectid($subjectid);
 		$knowledge->setName($name);
 		$knowledge->setDescribe($describe);
 		$knowledge->setCreatetime($timestamp);

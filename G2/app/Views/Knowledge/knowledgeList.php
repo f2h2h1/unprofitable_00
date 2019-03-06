@@ -43,10 +43,10 @@
 				<?=date('Y-m-d H:i:s', $item->getUpdatetime())?>
 			</td>
 			<td>
-				<a href="index.php?r=Knowledge/knowledgeEdit&id=<?=$item->getId()?>">习题</a> |
+				<a href="index.php?r=Knowledge/problemList&knowledgeid=<?=$item->getId()?>">习题</a> |
 				<a href="index.php?r=Knowledge/knowledgeEdit&id=<?=$item->getId()?>">编辑</a> |
 				<!-- <a href="index.php?r=Knowledge/knowledgeDetails&id=<?=$item->getId()?>">详细</a> | -->
-				<a href="index.php?r=Knowledge/knowledgeDetele" request-confirm="确定要删除此项吗" data-id="<?=$item->getId()?>">删除</a>
+				<a href="index.php?r=Knowledge/knowledgeDelete" request-confirm="确定要删除此项吗" data-id="<?=$item->getId()?>">删除</a>
 			</td>
 		</tr>
 		<?php endforeach;?>

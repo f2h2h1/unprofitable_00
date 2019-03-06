@@ -118,9 +118,9 @@ class Knowledge
 	 *
 	 * @return int
 	 */
-	public function getSubjetid()
+	public function getSubjectid()
 	{
-		return $this->subjetid;
+		return $this->subjectid;
 	}
 
 	/**

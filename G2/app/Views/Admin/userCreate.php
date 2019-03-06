@@ -14,7 +14,7 @@
 				</label>
 			</div>
 			<div class="form-group">
-				<label asp-for="Role" class="control-label"> 角色
+				<label class="control-label"> 角色
 					<select class="form-control" name="role">
 						<option value="2">教师</option>
 						<option value="3">学生</option>

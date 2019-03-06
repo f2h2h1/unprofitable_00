@@ -6,7 +6,7 @@ use GPojectPHP\Models\Subject;
 
 class SubjectDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\Subject';
+	protected $objectName = 'GPojectPHP\Models\Subject';
 
 	public function list() : ?array
 	{

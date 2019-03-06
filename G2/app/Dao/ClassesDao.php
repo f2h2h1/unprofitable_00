@@ -6,7 +6,7 @@ use GPojectPHP\Models\Classes;
 
 class ClassesDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\Classes';
+	protected $objectName = 'GPojectPHP\Models\Classes';
 
 	public function list() : ?array
 	{

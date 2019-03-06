@@ -5,7 +5,7 @@ use GPojectPHP\Models\Studymaterials;
 
 class StudymaterialsDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\Studymaterials';
+	protected $objectName = 'GPojectPHP\Models\Studymaterials';
 
 	public function list() : ?array
 	{
@@ -35,4 +35,16 @@ class StudymaterialsDao extends MainDao
 		return $studymaterials->getId();
 	}
 
+	public function get(int $id) : ?Studymaterials
+	{
+		return $this->entityManager->find($this->objectName, $id);
+	}
+
+	public function del(int $id) : bool
+	{
+		$model = $this->entityManager->find($this->objectName, $id);
+		$this->entityManager->remove($model);
+		$this->entityManager->flush();
+		return true;
+	}
 }

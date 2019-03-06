@@ -3,168 +3,171 @@
 namespace GPojectPHP\Models;
 
 /**
- * Homework
+ * @Entity
+ * @Table(name="homework")
  */
 class Homework
 {
-    /**
-     * @var int
-     */
-    private $id;
+	/**
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @Column(type="string")
+	 */
+	private $name;
 
-    /**
-     * @var int
-     */
-    private $examid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $examid;
 
-    /**
-     * @var int
-     */
-    private $studentid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $studentid;
 
-    /**
-     * @var string
-     */
-    private $path;
+	/**
+	 * @Column(type="string")
+	 */
+	private $path;
 
-    /**
-     * @var int
-     */
-    private $createtime;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $createtime;
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Homework
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
+	/**
+	 * Set name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Homework
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	
+		return $this;
+	}
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set examid.
-     *
-     * @param int $examid
-     *
-     * @return Homework
-     */
-    public function setExamid($examid)
-    {
-        $this->examid = $examid;
-    
-        return $this;
-    }
+	/**
+	 * Set examid.
+	 *
+	 * @param int $examid
+	 *
+	 * @return Homework
+	 */
+	public function setExamid($examid)
+	{
+		$this->examid = $examid;
+	
+		return $this;
+	}
 
-    /**
-     * Get examid.
-     *
-     * @return int
-     */
-    public function getExamid()
-    {
-        return $this->examid;
-    }
+	/**
+	 * Get examid.
+	 *
+	 * @return int
+	 */
+	public function getExamid()
+	{
+		return $this->examid;
+	}
 
-    /**
-     * Set studentid.
-     *
-     * @param int $studentid
-     *
-     * @return Homework
-     */
-    public function setStudentid($studentid)
-    {
-        $this->studentid = $studentid;
-    
-        return $this;
-    }
+	/**
+	 * Set studentid.
+	 *
+	 * @param int $studentid
+	 *
+	 * @return Homework
+	 */
+	public function setStudentid($studentid)
+	{
+		$this->studentid = $studentid;
+	
+		return $this;
+	}
 
-    /**
-     * Get studentid.
-     *
-     * @return int
-     */
-    public function getStudentid()
-    {
-        return $this->studentid;
-    }
+	/**
+	 * Get studentid.
+	 *
+	 * @return int
+	 */
+	public function getStudentid()
+	{
+		return $this->studentid;
+	}
 
-    /**
-     * Set path.
-     *
-     * @param string $path
-     *
-     * @return Homework
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    
-        return $this;
-    }
+	/**
+	 * Set path.
+	 *
+	 * @param string $path
+	 *
+	 * @return Homework
+	 */
+	public function setPath($path)
+	{
+		$this->path = $path;
+	
+		return $this;
+	}
 
-    /**
-     * Get path.
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
+	/**
+	 * Get path.
+	 *
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->path;
+	}
 
-    /**
-     * Set createtime.
-     *
-     * @param int $createtime
-     *
-     * @return Homework
-     */
-    public function setCreatetime($createtime)
-    {
-        $this->createtime = $createtime;
-    
-        return $this;
-    }
+	/**
+	 * Set createtime.
+	 *
+	 * @param int $createtime
+	 *
+	 * @return Homework
+	 */
+	public function setCreatetime($createtime)
+	{
+		$this->createtime = $createtime;
+	
+		return $this;
+	}
 
-    /**
-     * Get createtime.
-     *
-     * @return int
-     */
-    public function getCreatetime()
-    {
-        return $this->createtime;
-    }
+	/**
+	 * Get createtime.
+	 *
+	 * @return int
+	 */
+	public function getCreatetime()
+	{
+		return $this->createtime;
+	}
 }

@@ -5,7 +5,7 @@ use GPojectPHP\Models\User;
 
 class UserDao extends MainDao
 {
-	private $objectName = 'GPojectPHP\Models\User';
+	protected $objectName = 'GPojectPHP\Models\User';
 
 	public function login(string $name, string $password) : ?User
 	{

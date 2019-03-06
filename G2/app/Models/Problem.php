@@ -3,226 +3,229 @@
 namespace GPojectPHP\Models;
 
 /**
- * Problem
+ * @Entity
+ * @Table(name="problem")
  */
 class Problem
 {
-    /**
-     * @var int
-     */
-    private $id;
+	/**
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @Column(type="string")
+	 */
+	private $name;
 
-    /**
-     * @var int
-     */
-    private $type;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $type;
 
-    /**
-     * @var int
-     */
-    private $knowledgeid;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $knowledgeid;
 
-    /**
-     * @var string
-     */
-    private $describe;
+	/**
+	 * @Column(type="string")
+	 */
+	private $describe;
 
-    /**
-     * @var string
-     */
-    private $answer;
+	/**
+	 * @Column(type="string")
+	 */
+	private $answer;
 
-    /**
-     * @var int
-     */
-    private $createtime;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $createtime;
 
-    /**
-     * @var int
-     */
-    private $updatetime;
+	/**
+	 * @Column(type="integer")
+	 */
+	private $updatetime;
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Problem
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
+	/**
+	 * Set name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Problem
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	
+		return $this;
+	}
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set type.
-     *
-     * @param int $type
-     *
-     * @return Problem
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
+	/**
+	 * Set type.
+	 *
+	 * @param int $type
+	 *
+	 * @return Problem
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
+	
+		return $this;
+	}
 
-    /**
-     * Get type.
-     *
-     * @return int
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+	/**
+	 * Get type.
+	 *
+	 * @return int
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
 
-    /**
-     * Set knowledgeid.
-     *
-     * @param int $knowledgeid
-     *
-     * @return Problem
-     */
-    public function setKnowledgeid($knowledgeid)
-    {
-        $this->knowledgeid = $knowledgeid;
-    
-        return $this;
-    }
+	/**
+	 * Set knowledgeid.
+	 *
+	 * @param int $knowledgeid
+	 *
+	 * @return Problem
+	 */
+	public function setKnowledgeid($knowledgeid)
+	{
+		$this->knowledgeid = $knowledgeid;
+	
+		return $this;
+	}
 
-    /**
-     * Get knowledgeid.
-     *
-     * @return int
-     */
-    public function getKnowledgeid()
-    {
-        return $this->knowledgeid;
-    }
+	/**
+	 * Get knowledgeid.
+	 *
+	 * @return int
+	 */
+	public function getKnowledgeid()
+	{
+		return $this->knowledgeid;
+	}
 
-    /**
-     * Set describe.
-     *
-     * @param string $describe
-     *
-     * @return Problem
-     */
-    public function setDescribe($describe)
-    {
-        $this->describe = $describe;
-    
-        return $this;
-    }
+	/**
+	 * Set describe.
+	 *
+	 * @param string $describe
+	 *
+	 * @return Problem
+	 */
+	public function setDescribe($describe)
+	{
+		$this->describe = $describe;
+	
+		return $this;
+	}
 
-    /**
-     * Get describe.
-     *
-     * @return string
-     */
-    public function getDescribe()
-    {
-        return $this->describe;
-    }
+	/**
+	 * Get describe.
+	 *
+	 * @return string
+	 */
+	public function getDescribe()
+	{
+		return $this->describe;
+	}
 
-    /**
-     * Set answer.
-     *
-     * @param string $answer
-     *
-     * @return Problem
-     */
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-    
-        return $this;
-    }
+	/**
+	 * Set answer.
+	 *
+	 * @param string $answer
+	 *
+	 * @return Problem
+	 */
+	public function setAnswer($answer)
+	{
+		$this->answer = $answer;
+	
+		return $this;
+	}
 
-    /**
-     * Get answer.
-     *
-     * @return string
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
-    }
+	/**
+	 * Get answer.
+	 *
+	 * @return string
+	 */
+	public function getAnswer()
+	{
+		return $this->answer;
+	}
 
-    /**
-     * Set createtime.
-     *
-     * @param int $createtime
-     *
-     * @return Problem
-     */
-    public function setCreatetime($createtime)
-    {
-        $this->createtime = $createtime;
-    
-        return $this;
-    }
+	/**
+	 * Set createtime.
+	 *
+	 * @param int $createtime
+	 *
+	 * @return Problem
+	 */
+	public function setCreatetime($createtime)
+	{
+		$this->createtime = $createtime;
+	
+		return $this;
+	}
 
-    /**
-     * Get createtime.
-     *
-     * @return int
-     */
-    public function getCreatetime()
-    {
-        return $this->createtime;
-    }
+	/**
+	 * Get createtime.
+	 *
+	 * @return int
+	 */
+	public function getCreatetime()
+	{
+		return $this->createtime;
+	}
 
-    /**
-     * Set updatetime.
-     *
-     * @param int $updatetime
-     *
-     * @return Problem
-     */
-    public function setUpdatetime($updatetime)
-    {
-        $this->updatetime = $updatetime;
-    
-        return $this;
-    }
+	/**
+	 * Set updatetime.
+	 *
+	 * @param int $updatetime
+	 *
+	 * @return Problem
+	 */
+	public function setUpdatetime($updatetime)
+	{
+		$this->updatetime = $updatetime;
+	
+		return $this;
+	}
 
-    /**
-     * Get updatetime.
-     *
-     * @return int
-     */
-    public function getUpdatetime()
-    {
-        return $this->updatetime;
-    }
+	/**
+	 * Get updatetime.
+	 *
+	 * @return int
+	 */
+	public function getUpdatetime()
+	{
+		return $this->updatetime;
+	}
 }

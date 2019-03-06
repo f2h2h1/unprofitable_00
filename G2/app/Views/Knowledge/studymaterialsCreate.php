@@ -12,11 +12,11 @@
 					</select>
 				</label>
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label class="control-label"> 描述
 					<input class="form-control" name="name"/>
 				</label>
-			</div>
+			</div> -->
 			<div class="form-group">
 				<label class="control-label"> 附件
 					<input class="form-control" type="file" name="attachment"/>

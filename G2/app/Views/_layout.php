@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 	<style>
 		.main {
 			margin-top: 10px;
@@ -50,16 +53,10 @@
 						<li class="nav-item">
 							<a class="nav-link" href="index.php?r=Knowledge/studymaterialsList">学习资料</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Exam/examList">考核管理</a>
+						</li>
 					<?php endif;?>
-					<li class="nav-item">
-						<a class="nav-link" href="#">链接</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">链接</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">链接</a>
-					</li>
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item dropdown">
@@ -85,9 +82,6 @@
 		<?php endif;?>
 		<?=$tpl?>
 	</div>
-	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 	<script>
 		$("[request-confirm]").on("click", function() {
 			let message = $(this).attr("request-confirm");

@@ -6,7 +6,7 @@
 	<thead>
 		<tr>
 			<th>id</th>
-			<th>资料</th>
+			<th>文件名</th>
 			<th>学科</th>
 			<th>创建时间</th>
 			<th></th>
@@ -40,7 +40,7 @@
 			</td>
 			<td>
 				<a href="index.php?r=Knowledge/studymaterialsDownload&id=<?=$item->getId()?>">下载</a> |
-				<a href="index.php?r=Knowledge/studymaterialsDetele" request-confirm="确定要删除此项吗" data-id="<?=$item->getId()?>">删除</a>
+				<a href="index.php?r=Knowledge/studymaterialsDelete" request-confirm="确定要删除此项吗" data-id="<?=$item->getId()?>">删除</a>
 			</td>
 		</tr>
 		<?php endforeach;?>
