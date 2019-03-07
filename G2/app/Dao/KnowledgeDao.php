@@ -7,9 +7,13 @@ class KnowledgeDao extends MainDao
 {
 	protected $objectName = 'GPojectPHP\Models\Knowledge';
 
-	public function list() : ?array
+	public function list(int $subjectid = 0) : ?array
 	{
 		$dql = "SELECT a FROM {$this->objectName} a";
+		if ($subjectid !== 0)
+		{
+			$dql .= " where a.subjectid = {$subjectid}";
+		}
 		$ret = $this->entityManager->createQuery($dql)
 							->getResult();
 		if ($this->isEmpty($ret))
@@ -58,5 +62,10 @@ class KnowledgeDao extends MainDao
 
 		$this->entityManager->flush();
 		return true;
+	}
+
+	public function listFromSubjectid(int $subjectid) : ?array
+	{
+
 	}
 }

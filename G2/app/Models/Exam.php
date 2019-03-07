@@ -36,6 +36,11 @@ class Exam
 	private $subjectid;
 
 	/**
+	 * @Column(type="string")
+	 */
+	private $question;
+
+	/**
 	 * @Column(type="integer")
 	 */
 	private $createtime;
@@ -145,6 +150,30 @@ class Exam
 	public function getSubjectid()
 	{
 		return $this->subjectid;
+	}
+
+	/**
+	 * Set question.
+	 *
+	 * @param int $question
+	 *
+	 * @return Exam
+	 */
+	public function setQuestion($question)
+	{
+		$this->question = $question;
+	
+		return $this;
+	}
+
+	/**
+	 * Get question.
+	 *
+	 * @return string
+	 */
+	public function getQuestion()
+	{
+		return $this->question;
 	}
 
 	/**

@@ -32,4 +32,9 @@ class MainDao
 	{
 
 	}
+
+	public function getObjectName() : string
+	{
+		return $this->objectName;
+	}
 }

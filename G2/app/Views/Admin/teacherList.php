@@ -24,7 +24,16 @@
 				<?=$item->getName()?>
 			</td>
 			<td>
-				<?=$item->getSubjectid()?>
+				<?php
+					foreach ($subjectList as $sub)
+					{
+						if ($sub->getId() === $item->getSubjectid())
+						{
+							echo $sub->getName();
+							break;
+						}
+					}
+				?>
 			</td>
 			<td>
 				<?=$item->getClassid()?>

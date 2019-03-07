@@ -2,6 +2,7 @@
 namespace GPojectPHP\Dao;
 
 use GPojectPHP\Models\Problem;
+use GPojectPHP\Dao\KnowledgeDao;
 
 class ProblemDao extends MainDao
 {
@@ -49,5 +50,35 @@ class ProblemDao extends MainDao
 	public function get(int $id) : ?Problem
 	{
 		return $this->entityManager->find($this->objectName, $id);
+	}
+
+	public function getFromSubjectid(int $subjectid) : ?array
+	{
+		$knowledgeDao = new KnowledgeDao($this->entityManager);
+		$knowledgeObjectName = $knowledgeDao->getObjectName();
+		$expr = $this->entityManager->getExpressionBuilder();
+		$ret = $this->entityManager
+					->createQueryBuilder()
+					->select('a')
+					->from($this->objectName, 'a')
+					->where($expr->in(
+							'a.knowledgeid',
+							$this->entityManager->createQueryBuilder()
+								->select('b.id')
+								->from($knowledgeObjectName, 'b')
+								->where('b.subjectid = :subjectid')
+								->getDQL()
+							)
+						)
+					->getQuery()
+					->setParameter('subjectid', $subjectid)
+					->getArrayResult();
+		// $dql = "SELECT a FROM GPojectPHP\Models\Problem a WHERE a.knowledgeid IN(SELECT b.id FROM GPojectPHP\Models\knowledge b WHERE b.subjectid = :subjectid)";
+		if ($this->isEmpty($ret))
+		{
+			return null;
+		}
+		// var_dump($ret);
+		return $ret;
 	}
 }

@@ -9,12 +9,31 @@ class ExamDao extends MainDao
 
 	public function list() : ?array
 	{
-
+		$dql = "SELECT a FROM {$this->objectName} a";
+		$ret = $this->entityManager->createQuery($dql)
+							->getResult();
+		if ($this->isEmpty($ret))
+		{
+			return null;
+		}
+		return $ret;
 	}
 
-	public function add() : ?int
+	public function add(string $name, int $subjectid, int $type, string $question, int $teacherid) : ?int
 	{
-		
+		$timestamp = time();
+		$exam = new Exam();
+		$exam->setName($name);
+		$exam->setSubjectid($subjectid);
+		$exam->setType($type);
+		$exam->setQuestion($question);
+		$exam->setTeacherid($teacherid);
+		$exam->setCreatetime($timestamp);
+
+		$this->entityManager->persist($exam);
+		$this->entityManager->flush();
+
+		return $exam->getId();
 	}
 
 	public function del() : bool

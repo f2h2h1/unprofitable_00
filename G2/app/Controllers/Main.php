@@ -128,4 +128,10 @@ class Main
 	{
 		return '<script>history.back();</script>';
 	}
+
+	protected function json() : string
+	{
+		header('application/json; charset=utf-8');
+
+	}
 }

@@ -167,14 +167,21 @@ class Admin extends Main
 	{
 		$teacherDao = new TeacherDao($this->container->get('entityManager'));
 		$modelList = $teacherDao->list();
-		return $this->view(['modelList' => $modelList]);
+
+		$subjectDao = new SubjectDao($this->container->get('entityManager'));
+		$subjectList = $subjectDao->list();
+
+		return $this->view(['modelList' => $modelList, 'subjectList' => $subjectList]);
 	}
 
 	public function teacherCreate() : ?string
 	{
 		if (IS_GET)
 		{
-			return $this->view();
+			$subjectDao = new SubjectDao($this->container->get('entityManager'));
+			$subjectList = $subjectDao->list();
+
+			return $this->view(['subjectList' => $subjectList]);
 		}
 		else
 		{

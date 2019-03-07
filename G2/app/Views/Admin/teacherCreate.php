@@ -9,8 +9,12 @@
 				</label>
 			</div>
 			<div class="form-group">
-				<label class="control-label"> 任教学科
-					<input class="form-control" name="subjectid"/>
+				<label class="control-label"> 学科
+					<select class="form-control" name="subjectid">
+						<?php foreach ($subjectList as $sub) :?>
+						<option value="<?=$sub->getId()?>"><?=$sub->getName()?></option>
+						<?php endforeach;?>
+					</select>
 				</label>
 			</div>
 			<div class="form-group">

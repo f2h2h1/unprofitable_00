@@ -9,6 +9,7 @@
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
 	<style>
 		.main {
 			margin-top: 10px;
