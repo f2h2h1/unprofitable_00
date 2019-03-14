@@ -41,8 +41,8 @@ class ExamDao extends MainDao
 		
 	}
 
-	public function get() : ?Exam
+	public function get(int $id) : ?Exam
 	{
-		
+		return $this->entityManager->find($this->objectName, $id);
 	}
 }

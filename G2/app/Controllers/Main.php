@@ -67,7 +67,7 @@ class Main
 		$scriptName = substr($scriptFullName, $scriptNameLen - ($scriptNameLen-strripos($scriptFullName, '/') - 1));
 		$urlPath = str_replace($scriptName, "", $scriptFullName);
 
-		$baseUrl = $_SERVER['REQUEST_SCHEME'] . '://' .$_SERVER['SERVER_NAME'] . $urlPath;
+		$baseUrl = (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : 'http') . '://' .$_SERVER['SERVER_NAME'] . $urlPath;
 		$staticUrl = $baseUrl . 'static/';
 
 		$viewData['baseUrl'] = $baseUrl;

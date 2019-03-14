@@ -73,7 +73,7 @@ class ProblemDao extends MainDao
 					->getQuery()
 					->setParameter('subjectid', $subjectid)
 					->getArrayResult();
-		// $dql = "SELECT a FROM GPojectPHP\Models\Problem a WHERE a.knowledgeid IN(SELECT b.id FROM GPojectPHP\Models\knowledge b WHERE b.subjectid = :subjectid)";
+		// $dql = "SELECT a FROM GPojectPHP\Models\Problem a WHERE a.knowledgeid IN(SELECT b.id FROM GPojectPHP\Models\knowledge b WHERE b.subjectid = :subjectid";
 		if ($this->isEmpty($ret))
 		{
 			return null;

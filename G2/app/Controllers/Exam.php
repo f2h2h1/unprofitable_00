@@ -71,6 +71,7 @@ class Exam extends Main
 			}
 		}
 
+		header('Content-Type:application/json; charset=utf-8');
 		return json_encode($problemList, JSON_UNESCAPED_UNICODE);
 	}
 
@@ -86,7 +87,26 @@ class Exam extends Main
 
 	public function examDetails() : ?string
 	{
+		$id = (int)$_GET['id'];
+		$examDao = new ExamDao($this->container->get('entityManager'));
+		$exam = $examDao->get($id);
 
+		$questionList = [];
+		if ($exam->getType() === 1)
+		{
+			$question = $exam->getQuestion();
+			$question = explode(",", $question);
+			$problemDao = new ProblemDao($this->container->get('entityManager'));
+			foreach ($question as $item)
+			{
+				array_push($questionList, $problemDao->getArray($item));
+			}
+		}
+
+		$subjectDao = new SubjectDao($this->container->get('entityManager'));
+		$subjectList = $subjectDao->list();
+		$a = json_encode($questionList, JSON_UNESCAPED_UNICODE);
+		return $this->view(['exam' => $exam, 'subjectList' => $subjectList, 'questionList' => $questionList]);
 	}
 
 	public function examDelete() : ?string

@@ -37,4 +37,22 @@ class MainDao
 	{
 		return $this->objectName;
 	}
+
+	public function getArray(int $id) : ?array
+	{
+		$ret = $this->entityManager
+					->createQueryBuilder()
+					->select('a')
+					->from($this->objectName, 'a')
+					->where('a.id = :id')
+					->getQuery()
+					->setParameter('id', $id)
+					->setMaxResults(1)
+					->getArrayResult();
+		if (count($ret) === 0)
+		{
+			return null;
+		}
+		return $ret[0];
+	}
 }
