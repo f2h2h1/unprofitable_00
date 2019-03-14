@@ -107,7 +107,7 @@ class Main
 		unset($_SESSION['alertMsg']);
 	}
 
-	protected function redirect(string $route, array $parameter = []) : void
+	protected function redirect(string $route, array $parameter = []) : ?string
 	{
 		if (strpos($route, '/') === false)
 		{
@@ -122,6 +122,7 @@ class Main
 		}
 
 		header('Location: '.$url);
+		return null;
 	}
 
 	protected function goback() : string
@@ -129,7 +130,7 @@ class Main
 		return '<script>history.back();</script>';
 	}
 
-	protected function json() : string
+	protected function json() : void
 	{
 		header('application/json; charset=utf-8');
 

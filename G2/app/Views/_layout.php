@@ -58,6 +58,17 @@
 							<a class="nav-link" href="index.php?r=Exam/examList">考核管理</a>
 						</li>
 					<?php endif;?>
+					<?php if ($userRole === 3):?>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Student/subjectList">练习</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="">考核</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.php?r=Student/studymaterialsList">下载资料</a>
+						</li>
+					<?php endif;?>
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item dropdown">

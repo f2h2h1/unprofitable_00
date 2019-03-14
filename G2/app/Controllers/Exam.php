@@ -1,7 +1,6 @@
 <?php
 namespace GPojectPHP\Controllers;
 
-use GPojectPHP\Container;
 use GPojectPHP\Dao\ExamDao;
 use GPojectPHP\Dao\SubjectDao;
 use GPojectPHP\Dao\TeacherDao;
@@ -83,6 +82,7 @@ class Exam extends Main
 		else
 		{
 		}
+		return null;
 	}
 
 	public function examDetails() : ?string
@@ -111,6 +111,12 @@ class Exam extends Main
 
 	public function examDelete() : ?string
 	{
+		$id = (int)$_POST['id'];
 
+		$examDao = new ExamDao($this->container->get('entityManager'));
+		$examDao->del($id);
+
+		$this->setAlertMsg('删除成功', 'success');
+		return $this->redirect('examList');
 	}
 }

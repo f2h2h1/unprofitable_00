@@ -1,7 +1,6 @@
 <?php
 namespace GPojectPHP\Controllers;
 
-use GPojectPHP\Container;
 use GPojectPHP\Dao\KnowledgeDao;
 use GPojectPHP\Dao\SubjectDao;
 use GPojectPHP\Dao\StudymaterialsDao;
@@ -130,8 +129,8 @@ class Knowledge extends Main
 			{
 				$ext = '';
 			}
-			$savePath = POJECT_ROOT.'/upload/'.time().random_int(1000, 9999).'.'.$ext;
-			move_uploaded_file($attachment['tmp_name'], $savePath);
+			$savePath = '/upload/'.time().random_int(1000, 9999).'.'.$ext;
+			move_uploaded_file($attachment['tmp_name'], POJECT_ROOT.$savePath);
 
 			$teacherDao = new TeacherDao($this->container->get('entityManager'));
 			$teacher = $teacherDao->getFromUserid($this->user->getId());
@@ -151,7 +150,8 @@ class Knowledge extends Main
 		$studymaterialsDao = new StudymaterialsDao($this->container->get('entityManager'));
 		$studymaterials = $studymaterialsDao->get($id);
 
-		$file = file_get_contents($studymaterials->getPath());
+		$filepath = POJECT_ROOT.$studymaterials->getPath();
+		$file = file_get_contents($filepath);
 		$filename = $studymaterials->getName();
 
 		header("Content-type: application/octet-stream");
@@ -169,7 +169,7 @@ class Knowledge extends Main
 		$studymaterialsDao = new StudymaterialsDao($this->container->get('entityManager'));
 		$studymaterials = $studymaterialsDao->get($id);
 		$studymaterialsDao->del($id);
-		unlink($studymaterials->getPath());
+		unlink(POJECT_ROOT.$studymaterials->getPath());
 
 		$this->setAlertMsg('删除成功', 'success');
 		return $this->redirect('studymaterialsList');

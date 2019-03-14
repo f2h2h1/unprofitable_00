@@ -36,9 +36,12 @@ class ExamDao extends MainDao
 		return $exam->getId();
 	}
 
-	public function del() : bool
+	public function del(int $id) : bool
 	{
-		
+		$model = $this->entityManager->find($this->objectName, $id);
+		$this->entityManager->remove($model);
+		$this->entityManager->flush();
+		return true;
 	}
 
 	public function get(int $id) : ?Exam

@@ -1,7 +1,6 @@
 <?php
 namespace GPojectPHP\Controllers;
 
-use GPojectPHP\Container;
 use GPojectPHP\Dao\UserDao;
 
 class Home extends Main
