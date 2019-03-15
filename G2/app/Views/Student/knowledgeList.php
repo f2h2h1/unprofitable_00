@@ -30,7 +30,7 @@
 				<?=date('Y-m-d H:i:s', $item->getUpdatetime())?>
 			</td>
 			<td>
-				<a href="index.php?r=Student/problemList&id=<?=$item->getId()?>">习题</a> |
+				<a href="index.php?r=Student/exercises&id=<?=$item->getId()?>">习题</a> |
 				<!-- <a href="index.php?r=Knowledge/knowledgeEdit&id=<?=$item->getId()?>">编辑</a> | -->
 				<!-- <a href="index.php?r=Knowledge/knowledgeDetails&id=<?=$item->getId()?>">详细</a> | -->
 				<!-- <a href="index.php?r=Knowledge/knowledgeDelete" request-confirm="确定要删除此项吗" data-id="<?=$item->getId()?>">删除</a> -->

@@ -81,4 +81,81 @@ class ProblemDao extends MainDao
 		// var_dump($ret);
 		return $ret;
 	}
+
+	public function checkAnswer(array $answer) : ?array
+	{
+		$answerLen = count($answer);
+
+		$answerId = [];
+		foreach ($answer as $item)
+		{
+			array_push($answerId, $item['id']);
+		}
+
+		$expr = $this->entityManager->getExpressionBuilder();
+		$ret = $this->entityManager
+					->createQueryBuilder()
+					->select('a')
+					->from($this->objectName, 'a')
+					->where("a.id IN(:id)")
+					->getQuery()
+					->setParameter('id', $answerId)
+					->getArrayResult();
+
+		$right = [];
+		$wrong = [];
+		for ($i = 0; $i < $answerLen; $i++)
+		{
+			for ($j = 0, $len = count($ret); $j < $len; $j++)
+			{
+				if ($answer[$i]['id'] == $ret[$j]['id'])
+				{
+					$type = $answer[$i]['type'];
+					if ($type == 1 || $type == 2)
+					{
+						if ($answer[$i]['answer'] == $ret[$j]['answer'])
+						{
+							array_push($right, $ret[$j]);
+						}
+						else
+						{
+							array_push($wrong, $ret[$j]);
+						}
+					}
+					else
+					{
+						$key1 = $answer[$i]['answer'];
+						$key2 = explode(',', trim($ret[$j]['answer']));
+						$key1Len = count($key1);
+						$key2Len = count($key2);
+
+						if ($key1Len != $key2Len)
+						{
+							array_push($wrong, $ret[$j]);
+							continue;
+						}
+
+						$flg = false;
+						for ($k = 0; $k < $key2Len; $k++)
+						{
+							if ($key1[$k] != $key2[$k])
+							{
+								array_push($wrong, $ret[$j]);
+								$flg = true;
+								break;
+							}
+						}
+						if ($flg)
+						{
+							continue;
+						}
+
+						array_push($right, $ret[$j]);
+					}
+				}
+			}
+		}
+
+		return ['right' => $right, 'wrong' => $wrong];
+	}
 }

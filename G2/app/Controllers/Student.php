@@ -36,7 +36,7 @@ class Student extends Main
 		return $this->view(['modelList' => $modelList]);
 	}
 
-	public function problemList() : ?string
+	public function exercises() : ?string
 	{
 		$id = (int)$_GET['id'];
 
@@ -44,5 +44,23 @@ class Student extends Main
 		$modelList = $problemDao->list($id);
 
 		return $this->view(['modelList' => $modelList]);
+	}
+
+	public function result() : ?string
+	{
+		$answer = $_POST['answer'];
+		$answer = json_decode($answer, true);
+
+		$problemDao = new ProblemDao($this->container->get('entityManager'));
+		$ret = $problemDao->checkAnswer($answer);
+		// var_dump($ret);
+
+		// return $_POST['answer'];
+
+		$wrong = $ret['wrong'];
+		$right = $ret['right'];
+		$correctProbability = count($wrong) / (count($right) + count($wrong));
+
+		return $this->view(['correctProbability' => $correctProbability, 'modelList' => $wrong]);
 	}
 }
