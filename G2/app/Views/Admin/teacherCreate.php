@@ -19,7 +19,11 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="Role" class="control-label"> 负责班级
-					<input class="form-control" name="classid"/>
+					<select class="form-control" name="classid">
+						<?php foreach ($classesList as $sub) :?>
+						<option value="<?=$sub->getId()?>"><?=$sub->getName()?></option>
+						<?php endforeach;?>
+					</select>
 				</label>
 			</div>
 			<div class="form-group">

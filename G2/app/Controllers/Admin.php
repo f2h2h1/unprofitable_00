@@ -180,7 +180,10 @@ class Admin extends Main
 			$subjectDao = new SubjectDao($this->container->get('entityManager'));
 			$subjectList = $subjectDao->list();
 
-			return $this->view(['subjectList' => $subjectList]);
+			$classesDao = new ClassesDao($this->container->get('entityManager'));
+			$classesList = $classesDao->list();
+
+			return $this->view(['subjectList' => $subjectList, 'classesList' => $classesList]);
 		}
 		else
 		{
