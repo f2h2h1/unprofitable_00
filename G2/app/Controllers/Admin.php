@@ -22,7 +22,9 @@ class Admin extends Main
 	 */
 	public function logout() : ?string
 	{
+		// 清空 session
 		session_destroy();
+		// 重定向至登录页
 		return $this->redirect('Home/login');
 	}
 

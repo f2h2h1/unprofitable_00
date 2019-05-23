@@ -15,7 +15,8 @@ return [
 	],
 	'doctrine' => [],
 	'website' => [
-		'name' => '某某管理系统',
+		// 'name' => '某某管理系统',
+		'name' => '远程教育在线考试系',
 		'webroot' => POJECT_ROOT.'/public/',
 	]
 ];

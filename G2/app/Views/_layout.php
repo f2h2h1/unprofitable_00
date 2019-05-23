@@ -24,9 +24,11 @@
 	</style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+	<!-- <nav class="navbar navbar-expand-sm bg-primary navbar-dark"> -->
+	<nav class="navbar navbar-expand-sm navbar-dark">
 		<div class="container">
-			<a class="navbar-brand" href="index.php?r=Admin/index">主页</a>
+			<!-- <a class="navbar-brand" href="index.php?r=Admin/index">主页</a> -->
+			<a class="navbar-brand text-dark" href="index.php?r=Admin/index"><?=$website['name']?></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
 			</button>
