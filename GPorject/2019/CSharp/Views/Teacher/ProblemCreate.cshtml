@@ -1,0 +1,193 @@
+@{
+	ViewData["Title"] = "新建题目";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form method="post" asp-action="ProblemCreate" id="ProblemCreate">
+
+			<div class="form-group">
+				<label class="control-label" for="Name">题目</label>
+				<input class="form-control" type="text" id="Name" name="Name" value="">
+				<span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+			</div>
+			<div class="form-group">
+				<label class="control-label"> 类型
+					<select class="form-control" name="Type">
+						<option value="@((int)ProblemType.Choice)">选择题</option>
+						<option value="@((int)ProblemType.Judge)">判断题</option>
+						<option value="@((int)ProblemType.Fill)">填空题</option>
+						<option value="@((int)ProblemType.ShortAnswer)">简答题</option>
+					</select>
+				</label>
+			</div>
+			<!-- 选择题 -->
+				<div id="Choice" style="display:block;">
+					<div class="form-group">
+						<label class="control-label"> 题干
+							<textarea class="form-control" rows="8" name="Describe"></textarea>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="control-label"> 选项一
+							<input class="form-control" name="choiceOption[]"/>
+						</label>
+						<label class="control-label"> 选项二
+							<input class="form-control" name="choiceOption[]"/>
+						</label>
+						<label class="control-label"> 选项三
+							<input class="form-control" name="choiceOption[]"/>
+						</label>
+						<label class="control-label"> 选项四
+							<input class="form-control" name="choiceOption[]"/>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="control-label"> 答案
+							<select class="form-control" name="Answer">
+								<option value="1">选项一</option>
+								<option value="2">选项二</option>
+								<option value="3">选项三</option>
+								<option value="4">选项四</option>
+							</select>
+						</label>
+					</div>
+				</div>
+			<!-- end 选择题 -->
+			<!-- 判断题 -->
+				<div id="Judge" style="display:none;">
+					<div class="form-group">
+						<label class="control-label"> 题目
+							<textarea class="form-control" rows="8" name="Describe" form="nosubmit"></textarea>
+						</label>
+					</div>
+					<div class="form-group">
+						<div class="form-check">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="Answer" value="1" checked form="nosubmit">
+								对
+							</label>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="Answer" value="2" form="nosubmit">
+								错
+							</label>
+						</div>
+					</div>
+				</div>
+			<!-- end 判断题 -->
+			<!-- 填空题 -->
+				<div id="Fill" style="display:none;">
+					<div class="form-group">
+						<label class="control-label"> 题目
+							<textarea class="form-control" rows="8" name="Describe" form="nosubmit"></textarea>
+						</label>
+						<small class="form-text text-muted">
+							需要填空的位置，请使用这样的字符替代 %s 。例如，CPU由%s和%s组成
+						</small>
+					</div>
+					<div class="form-group">
+						<label class="control-label"> 答案
+							<textarea class="form-control" rows="8" name="Answer" form="nosubmit"></textarea>
+						</label>
+						<small class="form-text text-muted">
+							填空的答案请使用半角英文逗号隔开。例如，运算器,控制器
+						</small>
+					</div>
+				</div>
+			<!-- end 填空题 -->
+			<!-- 简答题 -->
+				<div id="ShortAnswer" style="display:none;">
+					<div class="form-group">
+						<label class="control-label"> 题目
+							<textarea class="form-control" rows="8" name="Describe" form="nosubmit"></textarea>
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="control-label"> 答案
+							<textarea class="form-control" rows="8" name="Answer" form="nosubmit"></textarea>
+						</label>
+					</div>
+				</div>
+			<!-- end 简答题 -->
+			<div class="form-group">
+				<input type="submit" value="新建" class="btn btn-default" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a href="javascript:history.back();">返回列表</a>
+</div>
+@section Scripts {
+<script>
+	$("[name='Type']").on("change", function() {
+		problemType = this.value;
+		if (problemType == @((int)ProblemType.Choice)) {
+			$('#Choice').css('display', 'block');
+			$('#Judge').css('display', 'none');
+			$('#Fill').css('display', 'none');
+			$('#ShortAnswer').css('display', 'none');
+
+			$("#Choice").find(".form-control").removeAttr("form");
+			$("#Judge").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-check-input").attr("form", "nosubmit");
+			$("#Fill").find(".form-control").attr("form", "nosubmit");
+			$("#ShortAnswer").find(".form-control").attr("form", "nosubmit");
+		} else if (problemType == @((int)ProblemType.Judge)) {
+			$('#Choice').css('display', 'none');
+			$('#Judge').css('display', 'block');
+			$('#Fill').css('display', 'none');
+			$('#ShortAnswer').css('display', 'none');
+
+			$("#Choice").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-control").removeAttr("form");
+			$("#Judge").find(".form-check-input").removeAttr("form");
+			$("#Fill").find(".form-control").attr("form", "nosubmit");
+			$("#ShortAnswer").find(".form-control").attr("form", "nosubmit");
+		} else if (problemType == @((int)ProblemType.Fill)) {
+			$('#Choice').css('display', 'none');
+			$('#Judge').css('display', 'none');
+			$('#Fill').css('display', 'block');
+			$('#ShortAnswer').css('display', 'none');
+
+			$("#Choice").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-check-input").attr("form", "nosubmit");
+			$("#Fill").find(".form-control").removeAttr("form");
+			$("#ShortAnswer").find(".form-control").attr("form", "nosubmit");
+		} else if (problemType == @((int)ProblemType.ShortAnswer)) {
+			$('#Choice').css('display', 'none');
+			$('#Judge').css('display', 'none');
+			$('#Fill').css('display', 'none');
+			$('#ShortAnswer').css('display', 'block');
+
+			$("#Choice").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-control").attr("form", "nosubmit");
+			$("#Judge").find(".form-check-input").attr("form", "nosubmit");
+			$("#Fill").find(".form-control").attr("form", "nosubmit");
+			$("#ShortAnswer").find(".form-control").removeAttr("form");
+		}
+	});
+
+	$('#ProblemCreate').on('submit', function() {
+		choiceOption = $("#ProblemCreate #Choice [name='choiceOption[]']");
+		describe = {
+			'problem':$("#ProblemCreate #Choice [name='Describe']").val(),
+			'option':[]
+		}
+		for (let i = 0, len = choiceOption.length; i < len; i++) {
+			console.log(choiceOption[i].value);
+			describe.option.push(choiceOption[i].value);
+		}
+		describe = JSON.stringify(describe);
+		$("#ProblemCreate #Choice [name='Describe']").val(describe);
+		return true;
+	});
+
+</script>
+}

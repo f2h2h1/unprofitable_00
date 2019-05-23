@@ -1,0 +1,40 @@
+@model GPorject.Models.Faculty
+
+@{
+	ViewData["Title"] = "系详细";
+}
+
+<div>
+	<h4>@ViewData["Title"]</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.ID)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.ID)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.CreateTime)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.CreateTime)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.UpdateTime)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.UpdateTime)
+		</dd>
+	</dl>
+</div>
+<div>
+	<a asp-action="FacultyEdit" asp-route-id="@Model.ID">编辑</a> |
+	<a asp-action="FacultyIndex">返回列表</a>
+</div>

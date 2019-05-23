@@ -1,0 +1,38 @@
+@model GPorject.Models.Faculty
+
+@{
+	ViewData["Title"] = "新建学科";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form method="post" asp-action="SubjectCreate">
+
+			<div class="form-group">
+				<label class="control-label" for="Name">学科</label>
+				<input class="form-control" type="text" id="Name" name="Name" value="">
+				<span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="FacultyID">系</label>
+				<select class="form-control valid" data-val="true" data-val-required="请选择系" id="FacultyID" name="FacultyID">
+					<option value="1">信息工程系</option>
+					<option value="2">会计系</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="新建" class="btn btn-default" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="SubjectIndex">返回列表</a>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

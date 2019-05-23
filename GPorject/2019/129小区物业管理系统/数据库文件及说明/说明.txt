@@ -1,0 +1,22 @@
+1. 将程序拷贝到php环境的根目录下
+2. 修改配置文件数据ip 用户名密码。 配置文件地址根目录（config.php）
+3. 执行本文件夹中的建库脚本，创建数据库   
+   注：首先创建数据库例如：ceshi 格式为utf8_general_ci。 在该数据库执行建库SQL。
+   修改config里的文件的db_name值为ceshi
+
+4. 网站入口 
+	前台访问地址： http://localhost
+	后台访问地址： http://localhost/admin/
+
+5. 后台管理员
+	用户名：admin
+	密码：admin
+
+6. 备注：
+
+  如变更数据库名称，用户名密码，或者程序不在根目录（二级目录）需要修改配置文件config.php，
+  define('__BASE__', 'http://localhost'); 修改为define('__BASE__', 'http://localhost/二级目录'); 如  不修改图片可能不会显示
+
+   例如：你的网址是http://localhost/ceshi
+
+   那需要把config.php里的网站根目录地址http://localhost改为http://localhost/ceshi

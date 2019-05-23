@@ -1,0 +1,108 @@
+@model IEnumerable<GPorject.Models.Problem>
+
+@{
+	ViewData["Title"] = "新建组卷";
+}
+@{
+	List<Subject> subjects = (List<Subject>)ViewData["subjects"];
+}
+<h4>@ViewData["Title"]</h4>
+<form method="post">
+<p>
+	<div class="form-group">
+		<label class="control-label"> 学科
+			<select class="form-control" name="SubjectID">
+				@foreach (var item in subjects) {
+					<option value="@item.ID"> 
+						@item.Name
+					</option>
+				}
+			</select>
+		</label>
+	</div>
+	<div class="form-group">
+		<label class="control-label"> 类型
+			<select class="form-control" name="ExerciseType">
+					<option value="0">练习</option>
+					<option value="1">试卷</option>
+			</select>
+		</label>
+	</div>
+	<div class="form-group">
+		<label class="control-label"> 组卷名称
+			<input class="form-control" type="text" id="Name" name="Name" value="">
+		</label>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="新建" class="btn btn-default" />
+	</div>
+</p>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>
+				#
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ID)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CreateTime)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UpdateTime)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				<input type="checkbox" value="@Html.DisplayFor(modelItem => item.ID)" name="ProblemID">
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ID)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@{
+					switch(item.Type)
+					{
+						case (int)ProblemType.Choice:
+							@:选择题
+							break;
+						case (int)ProblemType.Judge:
+							@:判断题
+							break;
+						case (int)ProblemType.Fill:
+							@:填空题
+							break;
+						case (int)ProblemType.ShortAnswer:
+							@:简答题
+							break;
+					}
+				}
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CreateTime)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.UpdateTime)
+			</td>
+			<td>
+				<a asp-action="ProblemDetails" asp-route-id="@item.ID">详细</a>
+			</td>
+		</tr>
+}
+	</tbody>
+</table>
+</form>

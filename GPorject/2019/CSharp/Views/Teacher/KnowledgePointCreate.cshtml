@@ -1,0 +1,30 @@
+@{
+	ViewData["Title"] = "新建知识点";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form method="post" asp-action="KnowledgePointCreate">
+
+			<div class="form-group">
+				<label class="control-label" for="Name">知识点</label>
+				<input class="form-control" type="text" id="Name" name="Name" value="">
+				<span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="Describe">描述</label>
+				<textarea class="form-control" rows="8" name="Describe"></textarea>
+				<span class="text-danger field-validation-valid" data-valmsg-for="Describe" data-valmsg-replace="true"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="新建" class="btn btn-default" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="KnowledgePointIndex">返回列表</a>
+</div>

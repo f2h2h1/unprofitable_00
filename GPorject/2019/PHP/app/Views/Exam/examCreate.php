@@ -1,0 +1,253 @@
+<h4>新建考核</h4>
+<hr />
+<div class="row">
+	<div class="col-md-12">
+		<form method="post"  id="examForm">
+			<div class="form-group">
+				<label class="control-label"> 考核
+					<input class="form-control" name="name"/>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label"> 学科
+					<select class="form-control" name="subjectid" id="subjectid">
+						<?php foreach ($subjectList as $sub) :?>
+						<option value="<?=$sub->getId()?>"><?=$sub->getName()?></option>
+						<?php endforeach;?>
+					</select>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label"> 类型
+					<select class="form-control" name="type" require>
+						<option value="">请选择</option>
+						<option value="1">在线考核</option>
+						<option value="2">上传作业</option>
+					</select>
+				</label>
+			</div>
+			<!-- 在线考核 -->
+				<div id="online" style="display:none;">
+					<div class="form-group row">
+						<div class="col-md-5">
+							<select class="form-control" size="20" multiple id="candidateQuestion">
+							</select>
+						</div>
+						<div class="col-md-2" style="text-align: center;">
+							<br>
+							<a title="add" id="addQuestionBut" class="btn btn-success btn-assign" href="javascript:void(0);">
+								&gt;&gt;
+							</a>
+							<br>
+							<br>
+							<a title="remove" id="removeQuestionBut" class="btn btn-danger btn-assign" href="javascript:void(0);">
+								&lt;&lt;
+							</a>
+							<br>
+							<br>
+						</div>
+						<div class="col-md-5">
+							<select class="form-control" size="20" multiple id="selecedQuestion">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="questionPreview">
+					</div>
+				</div>
+			<!-- end 在线考核 -->
+			<!-- 上传作业 -->
+				<div id="offline" style="display:none;">
+					<div class="form-group">
+						<label class="control-label"> 题目
+							<textarea class="form-control" rows="8" name="question"></textarea>
+						</label>
+					</div>
+				</div>
+			<!-- end 上传作业 -->
+			<div class="form-group">
+				<input type="submit" value="新建" class="btn btn-default" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a href="index.php?r=Exam/examList">返回列表</a>
+</div>
+
+<script>
+	(function(){
+		var questionList;
+		$("[name='type']").on("change", function() {
+			examType = this.value;
+			if (examType == 1) {
+				var subjectid = $('#subjectid').val();
+				var layerMask = layer.load(2);
+
+				$.ajax({
+						url:  location.origin + location.pathname + "?r=Exam/getQuestionList&subjectid=" + subjectid,
+						type: "GET",
+						dataType: "json",
+						success: function(result) {
+							// console.log(result);
+							questionList = result;
+							$('#candidateQuestion').html('');
+							$('#selecedQuestion').html('');
+							let optionEle = '';
+							for (let x in result) {
+								optionEle += '<option value="' + result[x].id + '">' + result[x].name + '</option>';
+							}
+							$('#candidateQuestion').html(optionEle);
+						},
+						error: function(xhr) {
+							layer.msg('请求失败 ' + xhr.status);
+						},
+						complete: function(XMLHttpRequest, textStatus) {
+							layer.close(layerMask);
+						}
+					});
+
+				$('#online').css('display', 'block');
+				$('#offline').css('display', 'none');
+			} else if (examType == 2) {
+				$('#online').css('display', 'none');
+				$('#offline').css('display', 'block');
+			}
+		});
+
+		$('#candidateQuestion').on('change', function() {
+			// console.log(this);
+			// console.log(this.value);
+			let questionId = this.value;
+			for (let x in questionList) {
+				// console.log(questionId + '\t' + questionList[x].id);
+				if (questionId == questionList[x].id) {
+					// console.log(questionId + '\t' + questionList[x].id + 's');
+					let questionType = questionList[x].type;
+					let questionName = questionList[x].name;
+					let questionDescribe = questionList[x].describe;
+
+					$('#questionPreview').html('');
+					let questionHtml = '';
+					if (questionType === 1) { // 选择
+
+						questionDescribe = JSON.parse(questionDescribe);
+						// console.log(questionDescribe);
+
+						questionHtml = '<p>' + questionDescribe.question + '</p>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="1">'+
+										'		' + questionDescribe.option[0] + ''+
+										'	</label>'+
+										'</div>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="2">'+
+										'		' + questionDescribe.option[1] + ''+
+										'	</label>'+
+										'</div>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="3">'+
+										'		' + questionDescribe.option[2] + ''+
+										'	</label>'+
+										'</div>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="4">'+
+										'		' + questionDescribe.option[3] + ''+
+										'	</label>'+
+										'</div>';
+					} else if (questionType === 2) { // 判断
+						questionHtml = '<p>' + questionDescribe + '</p>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="1">'+
+										'		对'+
+										'	</label>'+
+										'</div>'+
+										'<div class="form-check">'+
+										'	<label class="form-check-label">'+
+										'		<input type="radio" name="answer" value="2">'+
+										'		错'+
+										'	</label>'+
+										'</div>';
+					} else if (questionType === 3) { // 填空
+						questionHtml = '<p>' + questionDescribe + '</p>';
+						questionHtml = questionHtml.replace(/%s/g, "<input type='text' name='answer[]'>");
+					}
+					$('#questionPreview').html(questionHtml);
+
+					break;
+				}
+			}
+		});
+
+		$('#addQuestionBut').on('click', function() {
+			let selectQuestion = $('#candidateQuestion').val();
+			for (let i in selectQuestion) {
+				for (let x in questionList) {
+					if (selectQuestion[i] == questionList[x].id) {
+						$('#selecedQuestion').append('<option value="' + questionList[x].id + '">' + questionList[x].name + '</option>');
+					}
+				}
+			}
+		});
+
+		$('#removeQuestionBut').on('click', function() {
+			let selectQuestion = $('#selecedQuestion').val();
+			let selectedList = $("#selecedQuestion").find('option:selected');
+			// console.log(selectedList);
+			for (let i in selectQuestion) {
+				for (let x in selectedList) {
+					if (selectQuestion[i] == selectedList[x].value) {
+						// console.log(selectedList[x]);
+						selectedList[x].parentElement.removeChild(selectedList[x]);
+					}
+				}
+			}
+
+		});
+
+		$('#examForm').on('submit', function() {
+			let examName = $("[name='name']").val();
+			let examType = $("[name='type']").val();
+			let subjectid = $('#subjectid').val();
+			let selectedList = $("#selecedQuestion").find('option');
+			console.log(selectedList);
+
+			let formdata = {
+				'name':examName,
+				'type':examType,
+				'subjectid':subjectid,
+				'question':[],
+			}
+
+			for (let i = 0, len = selectedList.length; i < len; i++) {
+				formdata.question.push(selectedList[i].value);
+			}
+			formdata.question = formdata.question.toString();
+			console.log(formdata);
+			// console.log(formData.selectedList);
+
+
+			var form = document.createElement("form");
+			form.action = location.href;
+			form.method = "post";
+			form.style = "display:none;";
+			form.id = "tempFormPost";
+
+			for (let key in formdata) {
+				let input = document.createElement("input");
+				input.name = key;
+				input.value = formdata[key];
+				form.appendChild(input);
+			}
+			document.body.appendChild(form);
+			document.getElementById("tempFormPost").submit();
+
+			return false;
+		});
+	})();
+</script>
