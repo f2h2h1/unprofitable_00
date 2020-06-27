@@ -4,10 +4,11 @@ java Des
 javac Des.java && java Des
 */
 import java.util.Scanner;
+import java.util.*;
 
 public class Des {
 
-    static Byte[][] IP1 = {
+    static Byte[][] IP = {
         {58, 50, 42, 34, 26, 18, 10, 2},
         {60, 52, 44, 36, 28, 20, 12, 4},
         {62, 54, 46, 38, 30, 22, 14, 6},
@@ -18,7 +19,7 @@ public class Des {
         {63, 55, 47, 39, 31, 23, 15, 7}
     };
 
-    static Byte[][] IP2 = {
+    static Byte[][] FP = {
         {40, 8, 48, 16, 56, 24, 64, 32},
         {39, 7, 47, 15, 55, 23, 63, 31},
         {38, 6, 46, 14, 54, 22, 62, 30},
@@ -64,6 +65,10 @@ public class Des {
         { 1, 15, 23, 26,  5, 18, 31, 10},
         { 2,  8, 24, 14, 32, 27,  3,  9},
         {19, 13, 30,  6, 22, 11,  4, 25}
+    };
+
+    static final byte[] R = {
+        1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     };
 
     static Byte S1[][] = {
@@ -125,31 +130,43 @@ public class Des {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String mode, password, cleartext, ciphertext;
+        byte[] passwd;
+        byte[] clear, cipher;
         while (true) {
-            System.out.println("please select mode\n1. encrypt\t2. decrypt\t3. exit");
+            System.out.println("only single byte encoding is supported\nplease select mode\n1. encrypt\t2. decrypt\t3. exit");
             mode = input.nextLine();
-            if (mode.equals("1")) {
+            if (mode.equals("1") || mode.equals("2")) {
                 System.out.println("input password");
                 password = input.nextLine();
                 System.out.println(password);
-                System.out.println(password.length());
-                // System.out.println(password.size());
-                byte[] buff = password.getBytes();
-                System.out.println(buff.length);
-
-                System.out.println("input cleartext");
-                cleartext = input.nextLine();
-                System.out.println(cleartext);
-
-            } else if (mode.equals("2")) {
-                System.out.println("input password");
-                password = input.nextLine();
-                System.out.println(password);
-
-                System.out.println("input ciphertext");
-                ciphertext = input.nextLine();
-                System.out.println(ciphertext);
-
+                passwd = password.getBytes();
+                
+                System.out.println(passwd.length);
+                if (passwd.length > 8) {
+                    System.out.println("\n[error] password needs to be less than or equal to 8 bytes\n");
+                    continue;
+                } else if (passwd.length < 8) {
+                    byte[] passwd2 = new byte[8];
+                    for (int i = 0; i < 8; i++) {
+                        if (i >= passwd.length ) {
+                            passwd2[i] = 0;
+                        } else {
+                            passwd2[i] = passwd[i];
+                        }
+                    }
+                    passwd = passwd2;
+                }
+                System.out.println(passwd.length);
+                System.out.println(passwd[7]);
+                if (mode.equals("1")) {
+                    System.out.println("input cleartext");
+                    cleartext = input.nextLine();
+                    System.out.println(cleartext);
+                } else {
+                    System.out.println("input ciphertext");
+                    ciphertext = input.nextLine();
+                    System.out.println(ciphertext);
+                }
             } else if (mode.equals("3")) {
                 break;
             } else {
