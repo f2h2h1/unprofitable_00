@@ -200,6 +200,9 @@ public class Des {
         return b;
     }
 
+    /**
+     * 生成子密钥
+     */
     public static byte[][] generateKeys(byte[] passwd) throws Exception {
 
         if (passwd.length > 8) {
@@ -225,14 +228,23 @@ public class Des {
         return keySub;
     }
 
+    /**
+     * 加密
+     */
     public static byte[] desEncode(byte[] clear, byte[][] keySub) {
         return clear;
     }
 
+    /**
+     * 解密
+     */
     public static byte[] desDecode(byte[] cipher, byte[][] keySub) {
         return cipher;
     }
 
+    /**
+     * 输出 byte 数组
+     */
     public static void printbyte(byte[] b) {
         System.out.print("\n-------\n");
         for (int i = 0; i < b.length; i++) {
@@ -251,39 +263,45 @@ public class Des {
         byte[] clear, cipher;
         byte[][] keySub = new byte[16][6];
         while (true) {
+            // 只支持单字节字符集 请选择模式 1. 加密 2. 解密 3. 退出
             System.out.println("only single byte encoding is supported\nplease select mode\n1. encrypt\t2. decrypt\t3. exit");
             mode = input.nextLine();
             if (mode.equals("1") || mode.equals("2")) {
+                // 获取密钥
                 System.out.println("input password");
                 password = input.nextLine();
 
                 try {
-                    keySub = generateKeys(password.getBytes());
+                    keySub = generateKeys(password.getBytes()); // 把密钥解释成 16 个子密钥
                 } catch (Exception e) {
                     System.out.println("\n" + e.toString() + "\n");
                     continue;
                 }
 
-                if (mode.equals("1")) {
+                if (mode.equals("1")) { // 加密模式
+                    // 获取明文
                     System.out.println("input cleartext");
                     cleartext = input.nextLine();
-                    clear = str2byte(cleartext);
+
+                    clear = str2byte(cleartext); // 把 string 转换成 byte 数组
                     printbyte(clear);
-                    cipher = desEncode(clear, keySub);
+                    cipher = desEncode(clear, keySub); // 加密
                     printbyte(cipher);
                     System.out.println((new String(cipher)));
-                } else {
+                } else { // 解密模式
+                    // 获取密文
                     System.out.println("input ciphertext");
                     ciphertext = input.nextLine();
-                    cipher = str2byte(ciphertext);
+
+                    cipher = str2byte(ciphertext); // 把 string 转换成 byte 数组
                     printbyte(cipher);
-                    clear = desEncode(cipher, keySub);
+                    clear = desEncode(cipher, keySub); // 解密
                     printbyte(clear);
                     System.out.println((new String(clear)));
                 }
-            } else if (mode.equals("3")) {
+            } else if (mode.equals("3")) { // 退出程序
                 break;
-            } else {
+            } else { // 未知参数，循环
                 continue;
             }
         }
