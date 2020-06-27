@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Des {
 
-    static int LOOP_NUM = 16;
+    static int LOOP_NUM = 16; // 16 轮迭代
 
     static byte[] IP = {
         58, 50, 42, 34, 26, 18, 10, 2,
@@ -147,6 +147,26 @@ public class Des {
        return (num & (mask)); // 111011
     }
 
+    public static long setBit(long num, byte i, boolean one) {
+        if (one) {
+            return setBit1(long num, byte i);
+        }
+        return setBit0(long num, byte i);
+    }
+
+    /**
+     * 交换两个二进制位
+     */
+    public static long switchBit(long num, int i1, int i2) {
+        boolean s1;
+        boolean s2;
+        s1 = getBit(num, i1);
+        s2 = getBit(num, i2);
+        num = setBit(num, i2, s1);
+        num = setBit(num, i1, s2);
+        return num;
+    }
+
     /**
      * 把八个byte转换为一个long
      */
@@ -223,7 +243,12 @@ public class Des {
         }
         printbyte(passwd);
 
-        byte2long(passwd, 0);
+        long key = byte2long(passwd, 0);
+
+		/*==============PC-1压缩===============*/
+		for(int i = 0; i < PC1.length; i++) {
+            key = switchBit(key, i, PC1[i] - 1);
+		}
 
         return keySub;
     }
@@ -261,47 +286,47 @@ public class Des {
         String mode, password, cleartext, ciphertext;
         byte[] passwd;
         byte[] clear, cipher;
-        byte[][] keySub = new byte[16][6];
+        byte[][] keySub = new byte[LOOP_NUM][6];
         while (true) {
             // 只支持单字节字符集 请选择模式 1. 加密 2. 解密 3. 退出
             System.out.println("only single byte encoding is supported\nplease select mode\n1. encrypt\t2. decrypt\t3. exit");
-            mode = input.nextLine();
+            mode = input.nextLine(); // 从控制台获取模式
             if (mode.equals("1") || mode.equals("2")) {
-                // 获取密钥
+                // 从控制台获取密钥
                 System.out.println("input password");
                 password = input.nextLine();
 
                 try {
                     keySub = generateKeys(password.getBytes()); // 把密钥解释成 16 个子密钥
-                } catch (Exception e) {
+                } catch (Exception e) { // 如果密钥大于 64 位会抛出异常，然后继续主程序循环
                     System.out.println("\n" + e.toString() + "\n");
                     continue;
                 }
 
                 if (mode.equals("1")) { // 加密模式
-                    // 获取明文
+                    // 从控制台获取明文
                     System.out.println("input cleartext");
                     cleartext = input.nextLine();
 
                     clear = str2byte(cleartext); // 把 string 转换成 byte 数组
-                    printbyte(clear);
+                    printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
                     cipher = desEncode(clear, keySub); // 加密
-                    printbyte(cipher);
-                    System.out.println((new String(cipher)));
+                    printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
+                    System.out.println((new String(cipher))); // 输出密文字符串，可能是乱码
                 } else { // 解密模式
-                    // 获取密文
+                    // 从控制台获取密文
                     System.out.println("input ciphertext");
                     ciphertext = input.nextLine();
 
                     cipher = str2byte(ciphertext); // 把 string 转换成 byte 数组
-                    printbyte(cipher);
+                    printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
                     clear = desEncode(cipher, keySub); // 解密
-                    printbyte(clear);
-                    System.out.println((new String(clear)));
+                    printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
+                    System.out.println((new String(clear))); // 输出明文字符串
                 }
             } else if (mode.equals("3")) { // 退出程序
                 break;
-            } else { // 未知参数，循环
+            } else { // 未知参数，继续主程序循环
                 continue;
             }
         }
