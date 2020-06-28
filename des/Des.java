@@ -220,6 +220,9 @@ public class Des {
         return b;
     }
 
+    /**
+     * 用 0 填充 long 的剩余位数
+     */
     public static long longSetZero(long num, int start, int end) {
         for (int i = start, len = end; i < end; i++) {
             num = setBit0(num, i);
@@ -227,6 +230,9 @@ public class Des {
         return num;
     }
 
+    /**
+     * 复制 bit 位
+     */
     public static long copyBit(long num, int start, int end) {
         long tag = 0;
         for (int i = start, j = 0; i < end; i++, j++) {
@@ -236,6 +242,9 @@ public class Des {
         return tag;
     }
 
+    /**
+     * pc1 置换
+     */
     public static long[] pc1(long key) {
         for (int i = 0; i < PC1.length; i++) {
             key = switchBit(key, i, PC1[i] - 1);
@@ -251,6 +260,9 @@ public class Des {
         return arr;
     }
 
+    /**
+     * 左移
+     */
     public static long left(long key, int offset) {
         for (int i = 0; i < offset; i++) {
             boolean bit = getBit(key, i);
@@ -260,14 +272,71 @@ public class Des {
         return key;
     }
 
+    /**
+     * 合并两个 long 到一个 long 里
+     */
     public static long mergeBit(long c, long d) {
         long cd;
         return cd;
     }
 
+    /**
+     * pc2 置换
+     */
     public static long pc2(long cd) {
         long key;
         return key;
+    }
+
+    /**
+     * 初始置换
+     */
+    public static long ip(long block) {
+        return block;
+    }
+
+    /**
+     * 逆初始置换
+     */
+    public static long fp(long block) {
+        return block;
+    }
+
+    /**
+     * 把需要 加密/解密 的数据分成 l r 两块
+     */
+    public static long[] lr(long block) {
+        long[] arr = new long[2];
+        return arr;
+    }
+
+    /**
+     * 把 long 数组转换成 byte 数组
+     */
+    public static byte[] mergeBlock(long[] block) {
+        byte[] result;
+        return result;
+    }
+
+    /**
+     * E 盒置换
+     */
+    public static long ebox(long r) {
+        return r;
+    }
+
+    /**
+     * S 置换
+     */
+    public static long sbox(long r, int i) {
+        return r;
+    }
+
+    /**
+     * P 置换
+     */
+    public static long pbox(long r) {
+        return r;
     }
 
     /**
@@ -315,53 +384,90 @@ public class Des {
         return keySub;
     }
 
-    /**
-     * 加密
-     */
-    public static byte[] desEncode(byte[] clear, long[] keySub) {
-        long[] clearlong;
-        int i, j;
-        long l, r;
+    public static long loop(long l, long r, int i, long keySub) {
+
+        r = ebox(r); // E 盒置换
+        r = r ^ keySub; // 48位子密钥异或
+        r = sbox(r, i); // S 置换
+        r = pbox(r); // P 置换
+        l = l ^ r; // 32位 l 异或
+
+        return l;
+    }
+
+    public static long feistel(long block, long[] keySub, boolean decryption) {
+
         long[] arr;
+        long l, r, m;
 
-        // 分组
-        for (i = 0; i < clear.length; i = i + 8) {
-            clearlong[i] = byte2long(passwd, i);
-        }
+        // 初始置换
+        block = ip(block);
+        // 把需要 加密/解密 的数据分成 l r 两块
+        arr = lr(block);
+        l = arr[0];
+        r = arr[1];
 
-        for (int i = 0; i < clearlong.length; i++) {
-            clearlong[j] = ip(clearlong[j]);
-            arr = lr(clearlong[j]);
-            l = arr[0];
-            r = arr[1];
+        if (decryption) { // 加密
             for (j = 0; j < LOOP_NUM; j++) {
-                
-
+                m = r;
+                r = loop(l, r, i, keySub[i]);
+                l = m;
+            }
+        } else { // 解密  反向迭代
+            for (j = LOOP_NUM - 1; j >= 0; j--) {
+                m = r;
+                r = loop(l, r, i, keySub[i]);
+                l = m;
             }
         }
 
-
-        // 初始置换
-
-        // 16轮迭代
-        //     E置换
-        //     48位子密钥异或
-        //     s置换
-        //     P置换
-        //     32位l异或
-
+        // 合并 l r
+        block = mergeBit(l, r);
         // 逆初始置换
+        block = fp(block);
 
-        // 合并密文
+        return block;
+    }
 
-        return clear;
+    /**
+     * 加密/解密 用的是同一套算法，但子密钥的调用顺序相反
+     */
+    public static byte[] encrypt(byte[] src, long[] keySub, boolean decryption) {
+        long[] tag;
+        int i, j;
+        long l, r;
+        byte[] result;
+
+        // 分组
+        for (i = 0, j = 0, tag = src; i < src.length; i = i + 8, j++) {
+            tag[j] = byte2long(src, i);
+        }
+
+        // 编码
+        for (i = 0; i < src.length; i++) {
+            tag[i] = feistel(tag[i], keySub, decryption);
+        }
+
+        // 合并
+        result = mergeBlock(tag);
+
+        return result;
+    }
+
+    /**
+     * 加密
+     */
+    public static byte[] desEncode(byte[] src, long[] keySub) {
+        boolean decryption = true;
+        return encrypt(src, keySub, decryption);
     }
 
     /**
      * 解密
      */
     public static byte[] desDecode(byte[] cipher, long[] keySub) {
-        return cipher;
+        boolean decryption = false;
+        return encrypt(src, keySub, decryption);
     }
 
     /**
