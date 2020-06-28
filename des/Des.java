@@ -127,7 +127,7 @@ public class Des {
     /**
      * 获取 整数 num 的第 i 位的值
      */
-    public static boolean getBit(long num, byte i)
+    public static boolean getBit(long num, int i)
     {
         return ((num & (1 << i)) != 0); // true 表示第i位为1,否则为0
     }
@@ -135,23 +135,23 @@ public class Des {
     /**
      * 将 整数 num 的第 i 位的值 置为 1
      */
-    public static long setBit1(long num, byte i) {
+    public static long setBit1(long num, int i) {
         return (num | (1 << i));
     }
 
     /**
      * 将 整数 num 的第 i 位的值 置为 0
      */
-    public static long setBit0(long num, byte i) {
+    public static long setBit0(long num, int i) {
        int mask = ~(1 << i); // 000100
        return (num & (mask)); // 111011
     }
 
-    public static long setBit(long num, byte i, boolean one) {
+    public static long setBit(long num, int i, boolean one) {
         if (one) {
-            return setBit1(long num, byte i);
+            return setBit1(num, i);
         }
-        return setBit0(long num, byte i);
+        return setBit0(num, i);
     }
 
     /**
@@ -220,17 +220,67 @@ public class Des {
         return b;
     }
 
+    public static long longSetZero(long num, int start, int end) {
+        for (int i = start, len = end; i < end; i++) {
+            num = setBit0(num, i);
+        }
+        return num;
+    }
+
+    public static long copyBit(long num, int start, int end) {
+        long tag = 0;
+        for (int i = start, j = 0; i < end; i++, j++) {
+            boolean bit = getBit(num, i);
+            tag = setBit(tag, i, bit);
+        }
+        return tag;
+    }
+
+    public static long[] pc1(long key) {
+        for (int i = 0; i < PC1.length; i++) {
+            key = switchBit(key, i, PC1[i] - 1);
+        }
+        key = longSetZero(key, 48, 64);
+        long d;
+        long c;
+        d = copyBit(key, 0, 28);
+        c = copyBit(key, 28, 56);
+        long[] arr = new long[2];
+        arr[0] = c;
+        arr[1] = d;
+        return arr;
+    }
+
+    public static long left(long key, int offset) {
+        for (int i = 0; i < offset; i++) {
+            boolean bit = getBit(key, i);
+            key = key << 1;
+            key = setBit(key, 63 - i, bit);
+        }
+        return key;
+    }
+
+    public static long mergeBit(long c, long d) {
+        long cd;
+        return cd;
+    }
+
+    public static long pc2(long cd) {
+        long key;
+        return key;
+    }
+
     /**
      * 生成子密钥
      */
-    public static byte[][] generateKeys(byte[] passwd) throws Exception {
+    public static long[] generateKeys(byte[] passwd) throws Exception {
 
-        if (passwd.length > 8) {
+        if (passwd.length > 8) { // 如果密钥大于 64 位会抛出异常
             throw new Exception("password needs to be less than or equal to 8 bytes");
         }
 
-        byte[][] keySub = new byte[16][6];
-        if (passwd.length < 8) {
+        long[] keySub = new long[LOOP_NUM];
+        if (passwd.length < 8) {{ // 如果密钥不足 64 位，就用 0 补足 64 位
             byte[] passwd2 = new byte[8];
             for (int i = 0; i < 8; i++) {
                 if (i >= passwd.length ) {
@@ -243,12 +293,24 @@ public class Des {
         }
         printbyte(passwd);
 
-        long key = byte2long(passwd, 0);
+        long key = byte2long(passwd, 0); // 把 byte 数组转换为 long
+        long[] arr;
+        arr = pc1(key); // pc1 置换
+        long c;
+        long d;
+        long cd;
+        c = arr[0];
+        d = arr[1];
 
-		/*==============PC-1压缩===============*/
-		for(int i = 0; i < PC1.length; i++) {
-            key = switchBit(key, i, PC1[i] - 1);
-		}
+        for (int i = 0; i < LOOP_NUM; i++) {
+            // 左移
+            c = left(c, R[i]);
+            d = left(d, R[i]);
+            // 合并cd
+            cd = mergeBit(c, d);
+            // pc2 置换
+            keySub[i] = pc2(cd);
+        }
 
         return keySub;
     }
@@ -256,14 +318,49 @@ public class Des {
     /**
      * 加密
      */
-    public static byte[] desEncode(byte[] clear, byte[][] keySub) {
+    public static byte[] desEncode(byte[] clear, long[] keySub) {
+        long[] clearlong;
+        int i, j;
+        long l, r;
+        long[] arr;
+
+        // 分组
+        for (i = 0; i < clear.length; i = i + 8) {
+            clearlong[i] = byte2long(passwd, i);
+        }
+
+        for (int i = 0; i < clearlong.length; i++) {
+            clearlong[j] = ip(clearlong[j]);
+            arr = lr(clearlong[j]);
+            l = arr[0];
+            r = arr[1];
+            for (j = 0; j < LOOP_NUM; j++) {
+                
+
+            }
+        }
+
+
+        // 初始置换
+
+        // 16轮迭代
+        //     E置换
+        //     48位子密钥异或
+        //     s置换
+        //     P置换
+        //     32位l异或
+
+        // 逆初始置换
+
+        // 合并密文
+
         return clear;
     }
 
     /**
      * 解密
      */
-    public static byte[] desDecode(byte[] cipher, byte[][] keySub) {
+    public static byte[] desDecode(byte[] cipher, long[] keySub) {
         return cipher;
     }
 
