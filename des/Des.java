@@ -1,12 +1,11 @@
 /**
-javac -encoding UTF-8 Des.java
-java -Dfile.encoding=UTF-8 Des
-javac -encoding UTF-8 Des.java && java -Dfile.encoding=UTF-8 Des
+javac -encoding UTF-8 DES.java
+java -Dfile.encoding=UTF-8 DES
+javac -encoding UTF-8 DES.java && java -Dfile.encoding=UTF-8 DES
 */
 import java.util.Scanner;
-import java.util.*;
 
-public class Des {
+public class DES {
 
     static int LOOP_NUM = 16; // 16 轮迭代
 
@@ -224,7 +223,7 @@ public class Des {
      * 用 0 填充 long 的剩余位数
      */
     public static long longSetZero(long num, int start, int end) {
-        for (int i = start, len = end; i < end; i++) {
+        for (int i = start; i < end; i++) {
             num = setBit0(num, i);
         }
         return num;
@@ -235,7 +234,7 @@ public class Des {
      */
     public static long copyBit(long num, int start, int end) {
         long tag = 0;
-        for (int i = start, j = 0; i < end; i++, j++) {
+        for (int i = start; i < end; i++) {
             boolean bit = getBit(num, i);
             tag = setBit(tag, i, bit);
         }
@@ -275,17 +274,19 @@ public class Des {
     /**
      * 合并两个 long 到一个 long 里
      */
-    public static long mergeBit(long c, long d) {
-        long cd;
-        return cd;
+    public static long mergeBit(long a, long b, int offset) {
+        long ab;
+        ab = a;
+        ab = ab << offset;
+        ab = ab | b;
+        return ab;
     }
 
     /**
      * pc2 置换
      */
     public static long pc2(long cd) {
-        long key;
-        return key;
+        return cd;
     }
 
     /**
@@ -307,6 +308,8 @@ public class Des {
      */
     public static long[] lr(long block) {
         long[] arr = new long[2];
+        arr[0] = (block << 32) >> 32;
+        arr[1] = block >> 32;
         return arr;
     }
 
@@ -314,8 +317,23 @@ public class Des {
      * 把 long 数组转换成 byte 数组
      */
     public static byte[] mergeBlock(long[] block) {
-        byte[] result;
+        byte[] result = new byte[block.length * 8];
+        for (int i = 0; i < block.length; i++) {
+            System.arraycopy(long2Bytes(block[i]), 0, result, 8 * i, 8);
+        }
         return result;
+    }
+
+    /**
+     * 把 long 转为成 byte
+     */
+    public static byte[] long2Bytes(long num) {
+        byte[] byteNum = new byte[8];
+        for (int ix = 0; ix < 8; ++ix) {
+            int offset = 64 - (ix + 1) * 8;
+            byteNum[ix] = (byte) ((num >> offset) & 0xff);
+        }
+        return byteNum;
     }
 
     /**
@@ -349,7 +367,7 @@ public class Des {
         }
 
         long[] keySub = new long[LOOP_NUM];
-        if (passwd.length < 8) {{ // 如果密钥不足 64 位，就用 0 补足 64 位
+        if (passwd.length < 8) { // 如果密钥不足 64 位，就用 0 补足 64 位
             byte[] passwd2 = new byte[8];
             for (int i = 0; i < 8; i++) {
                 if (i >= passwd.length ) {
@@ -375,8 +393,8 @@ public class Des {
             // 左移
             c = left(c, R[i]);
             d = left(d, R[i]);
-            // 合并cd
-            cd = mergeBit(c, d);
+            // 合并cd 28
+            cd = mergeBit(c, d, 28);
             // pc2 置换
             keySub[i] = pc2(cd);
         }
@@ -384,7 +402,7 @@ public class Des {
         return keySub;
     }
 
-    public static long loop(long l, long r, int i, long keySub) {
+    public static long floop(long l, long r, int i, long keySub) {
 
         r = ebox(r); // E 盒置换
         r = r ^ keySub; // 48位子密钥异或
@@ -399,6 +417,7 @@ public class Des {
 
         long[] arr;
         long l, r, m;
+        int i;
 
         // 初始置换
         block = ip(block);
@@ -408,21 +427,21 @@ public class Des {
         r = arr[1];
 
         if (decryption) { // 加密
-            for (j = 0; j < LOOP_NUM; j++) {
+            for (i = 0; i < LOOP_NUM; i++) {
                 m = r;
-                r = loop(l, r, i, keySub[i]);
+                r = floop(l, r, i, keySub[i]);
                 l = m;
             }
         } else { // 解密  反向迭代
-            for (j = LOOP_NUM - 1; j >= 0; j--) {
+            for (i = LOOP_NUM - 1; i >= 0; i--) {
                 m = r;
-                r = loop(l, r, i, keySub[i]);
+                r = floop(l, r, i, keySub[i]);
                 l = m;
             }
         }
 
-        // 合并 l r
-        block = mergeBit(l, r);
+        // 合并 l r 32
+        block = mergeBit(l, r, 32);
         // 逆初始置换
         block = fp(block);
 
@@ -435,16 +454,16 @@ public class Des {
     public static byte[] encrypt(byte[] src, long[] keySub, boolean decryption) {
         long[] tag;
         int i, j;
-        long l, r;
         byte[] result;
 
         // 分组
-        for (i = 0, j = 0, tag = src; i < src.length; i = i + 8, j++) {
+        tag = new long[src.length / 8];
+        for (i = 0, j = 0; i < src.length; i = i + 8, j++) {
             tag[j] = byte2long(src, i);
         }
 
         // 编码
-        for (i = 0; i < src.length; i++) {
+        for (i = 0; i < tag.length; i++) {
             tag[i] = feistel(tag[i], keySub, decryption);
         }
 
@@ -465,7 +484,7 @@ public class Des {
     /**
      * 解密
      */
-    public static byte[] desDecode(byte[] cipher, long[] keySub) {
+    public static byte[] desDecode(byte[] src, long[] keySub) {
         boolean decryption = false;
         return encrypt(src, keySub, decryption);
     }
@@ -487,9 +506,8 @@ public class Des {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String mode, password, cleartext, ciphertext;
-        byte[] passwd;
         byte[] clear, cipher;
-        byte[][] keySub = new byte[LOOP_NUM][6];
+        long[] keySub = new long[LOOP_NUM];
         while (true) {
             // 只支持单字节字符集 请选择模式 1. 加密 2. 解密 3. 退出
             System.out.println("only single byte encoding is supported\nplease select mode\n1. encrypt\t2. decrypt\t3. exit");
@@ -533,5 +551,6 @@ public class Des {
                 continue;
             }
         }
+        input.close();
     }
 }
