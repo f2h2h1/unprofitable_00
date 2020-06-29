@@ -146,6 +146,9 @@ public class DES {
        return (num & (mask)); // 111011
     }
 
+    /**
+     * 将 整数 num 的第 i 位的值 置为 0 或 1
+     */
     public static long setBit(long num, int i, boolean one) {
         if (one) {
             return setBit1(num, i);
@@ -358,7 +361,7 @@ public class DES {
      */
     public static long sbox(long r) {
         long dst = 0;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) { // 8 个s盒置换
             dst >>>= 4;
             byte src = (byte) (r & 0x3F);
             src = (byte) (src & 0x20 | ((src & 0x01) << 4) | ((src & 0x1E) >> 1));
@@ -424,6 +427,9 @@ public class DES {
         return keySub;
     }
 
+    /**
+     * 16轮迭代的方法
+     */
     public static long floop(long l, long r, int i, long keySub) {
 
         r = ebox(r); // E 盒置换
@@ -435,6 +441,9 @@ public class DES {
         return l;
     }
 
+    /**
+     * 用于 加密/解密 的方法
+     */
     public static long feistel(long block, long[] keySub, boolean decryption) {
 
         long[] arr;
@@ -449,13 +458,13 @@ public class DES {
         r = arr[1];
 
         if (decryption) { // 加密
-            for (i = 0; i < LOOP_NUM; i++) {
+            for (i = 0; i < LOOP_NUM; i++) { // 16轮迭代
                 m = r;
                 r = floop(l, r, i, keySub[i]);
                 l = m;
             }
         } else { // 解密  反向迭代
-            for (i = LOOP_NUM - 1; i >= 0; i--) {
+            for (i = LOOP_NUM - 1; i >= 0; i--) { // 16轮迭代
                 m = r;
                 r = floop(l, r, i, keySub[i]);
                 l = m;
@@ -555,7 +564,7 @@ public class DES {
                     // printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
                     cipher = desEncode(clear, keySub); // 加密
                     // printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
-                    System.out.println((new String(cipher))); // 输出密文字符串，可能是乱码
+                    System.out.println("cipher: " + (new String(cipher))); // 输出密文字符串，可能是乱码
                 } else { // 解密模式
                     // 从控制台获取密文
                     System.out.println("input ciphertext");
@@ -565,7 +574,7 @@ public class DES {
                     // printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
                     clear = desEncode(cipher, keySub); // 解密
                     // printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
-                    System.out.println((new String(clear))); // 输出明文字符串
+                    System.out.println("clear: " + (new String(clear))); // 输出明文字符串
                 }
             } else if (mode.equals("3")) { // 退出程序
                 break;
