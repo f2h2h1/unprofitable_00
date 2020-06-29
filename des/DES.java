@@ -275,13 +275,20 @@ public class DES {
         return byteNum;
     }
 
+    public static long permute(byte[] table, int srcWidth, long src) {
+        long dst = 0;
+        for (int i = 0; i < table.length; i++) {
+            int srcPos = srcWidth - table[i];
+            dst = (dst << 1) | (src >> srcPos & 0x01);
+        }
+        return dst;
+    }
+
     /**
      * pc1 置换
      */
     public static long[] pc1(long key) {
-        for (int i = 0; i < PC1.length; i++) {
-            key = switchBit(key, i, PC1[i] - 1);
-        }
+        key = permute(PC1, 64, key);
         key = longSetZero(key, 48, 64);
         long d;
         long c;
@@ -309,21 +316,21 @@ public class DES {
      * pc2 置换
      */
     public static long pc2(long cd) {
-        return cd;
+        return permute(PC2, 56, cd);
     }
 
     /**
      * 初始置换
      */
     public static long ip(long block) {
-        return block;
+        return permute(IP, 64, block);
     }
 
     /**
      * 逆初始置换
      */
     public static long fp(long block) {
-        return block;
+        return permute(FP, 64, block);
     }
 
     /**
@@ -340,7 +347,7 @@ public class DES {
      * E 盒置换
      */
     public static long ebox(long r) {
-        return r;
+        return permute(E, 32, r & 0xFFFFFFFFL);
     }
 
     /**
@@ -354,6 +361,8 @@ public class DES {
      * P 置换
      */
     public static long pbox(long r) {
+        r = permute(P, 32, r & 0xFFFFFFFFL);
+        r = longSetZero(r, 32, 64);
         return r;
     }
 
