@@ -242,6 +242,40 @@ public class DES {
     }
 
     /**
+     * 合并两个 long 到一个 long 里
+     */
+    public static long mergeBit(long a, long b, int offset) {
+        long ab;
+        ab = a;
+        ab = ab << offset;
+        ab = ab | b;
+        return ab;
+    }
+
+    /**
+     * 把 long 数组转换成 byte 数组
+     */
+    public static byte[] mergeBlock(long[] block) {
+        byte[] result = new byte[block.length * 8];
+        for (int i = 0; i < block.length; i++) {
+            System.arraycopy(long2Bytes(block[i]), 0, result, 8 * i, 8);
+        }
+        return result;
+    }
+
+    /**
+     * 把 long 转为成 byte
+     */
+    public static byte[] long2Bytes(long num) {
+        byte[] byteNum = new byte[8];
+        for (int ix = 0; ix < 8; ++ix) {
+            int offset = 64 - (ix + 1) * 8;
+            byteNum[ix] = (byte) ((num >> offset) & 0xff);
+        }
+        return byteNum;
+    }
+
+    /**
      * pc1 置换
      */
     public static long[] pc1(long key) {
@@ -269,17 +303,6 @@ public class DES {
             key = setBit(key, 63 - i, bit);
         }
         return key;
-    }
-
-    /**
-     * 合并两个 long 到一个 long 里
-     */
-    public static long mergeBit(long a, long b, int offset) {
-        long ab;
-        ab = a;
-        ab = ab << offset;
-        ab = ab | b;
-        return ab;
     }
 
     /**
@@ -311,29 +334,6 @@ public class DES {
         arr[0] = (block << 32) >> 32;
         arr[1] = block >> 32;
         return arr;
-    }
-
-    /**
-     * 把 long 数组转换成 byte 数组
-     */
-    public static byte[] mergeBlock(long[] block) {
-        byte[] result = new byte[block.length * 8];
-        for (int i = 0; i < block.length; i++) {
-            System.arraycopy(long2Bytes(block[i]), 0, result, 8 * i, 8);
-        }
-        return result;
-    }
-
-    /**
-     * 把 long 转为成 byte
-     */
-    public static byte[] long2Bytes(long num) {
-        byte[] byteNum = new byte[8];
-        for (int ix = 0; ix < 8; ++ix) {
-            int offset = 64 - (ix + 1) * 8;
-            byteNum[ix] = (byte) ((num >> offset) & 0xff);
-        }
-        return byteNum;
     }
 
     /**
