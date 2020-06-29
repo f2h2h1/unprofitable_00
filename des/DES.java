@@ -275,6 +275,9 @@ public class DES {
         return byteNum;
     }
 
+    /**
+     * 通用的置换方法
+     */
     public static long permute(byte[] table, int srcWidth, long src) {
         long dst = 0;
         for (int i = 0; i < table.length; i++) {
@@ -353,8 +356,18 @@ public class DES {
     /**
      * S 置换
      */
-    public static long sbox(long r, int i) {
-        return r;
+    public static long sbox(long r) {
+        long dst = 0;
+        for (int i = 0; i < 8; i++) {
+            dst >>>= 4;
+            byte src = (byte) (r & 0x3F);
+            src = (byte) (src & 0x20 | ((src & 0x01) << 4) | ((src & 0x1E) >> 1));
+            int s = S[8 - i - 1][src];
+            dst |= s << 28;
+            r >>= 6;
+        }
+
+        return dst;
     }
 
     /**
@@ -387,7 +400,7 @@ public class DES {
             }
             passwd = passwd2;
         }
-        printbyte(passwd);
+        // printbyte(passwd);
 
         long key = byte2long(passwd, 0); // 把 byte 数组转换为 long
         long[] arr;
@@ -415,7 +428,7 @@ public class DES {
 
         r = ebox(r); // E 盒置换
         r = r ^ keySub; // 48位子密钥异或
-        r = sbox(r, i); // S 置换
+        r = sbox(r); // S 置换
         r = pbox(r); // P 置换
         l = l ^ r; // 32位 l 异或
 
@@ -539,9 +552,9 @@ public class DES {
                     cleartext = input.nextLine();
 
                     clear = str2byte(cleartext); // 把 string 转换成 byte 数组
-                    printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
+                    // printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
                     cipher = desEncode(clear, keySub); // 加密
-                    printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
+                    // printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
                     System.out.println((new String(cipher))); // 输出密文字符串，可能是乱码
                 } else { // 解密模式
                     // 从控制台获取密文
@@ -549,9 +562,9 @@ public class DES {
                     ciphertext = input.nextLine();
 
                     cipher = str2byte(ciphertext); // 把 string 转换成 byte 数组
-                    printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
+                    // printbyte(cipher); // 输出转换成 byte 数组的密文，主要是测试用的
                     clear = desEncode(cipher, keySub); // 解密
-                    printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
+                    // printbyte(clear); // 输出转换成 byte 数组的明文，主要是测试用的
                     System.out.println((new String(clear))); // 输出明文字符串
                 }
             } else if (mode.equals("3")) { // 退出程序
