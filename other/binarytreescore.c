@@ -479,7 +479,7 @@ void queryClass() {
     printf("请输入课程编号\n");
     int classID;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &classID);
+        scanf_s("%d", &classID);
     #else
         scanf("%d", &classID);
     #endif
@@ -528,7 +528,7 @@ void queryClassByStudentNumber() {
     printf("请输入学号\n");
     int studentID;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &studentID);
+        scanf_s("%d", &studentID);
     #else
         scanf("%d", &studentID);
     #endif
@@ -571,7 +571,7 @@ void queryClassByStudentName() {
     printf("请输入学生姓名\n");
     char studentName[10];
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%s", _countof(studentName), studentName);
+        scanf_s("%s", studentName, _countof(studentName));
     #else
         scanf("%s", studentName);
     #endif
@@ -613,7 +613,7 @@ void addStudent() {
     printf("请输入学号\n");
     int studentID;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &studentID);
+        scanf_s("%d", &studentID);
     #else
         scanf("%d", &studentID);
     #endif
@@ -634,7 +634,7 @@ void addStudent() {
     }
     int subjectIndex;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &subjectIndex);
+        scanf_s("%d", &subjectIndex);
     #else
         scanf("%d", &subjectIndex);
     #endif
@@ -648,7 +648,7 @@ void addStudent() {
     printf("请输入学生姓名\n");
     char studentName[10];
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", _countof(studentName), studentName);
+        scanf_s("%d", studentName, _countof(studentName));
     #else
         scanf("%s", studentName);
     #endif
@@ -668,7 +668,7 @@ void addStudent() {
         printf("请输入 %s 的成绩：", class->name);
         int score;
         #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-            scanf_s("%d", sizeof(int), &score);
+            scanf_s("%d", &score);
         #else
             scanf("%d", &score);
         #endif
@@ -686,7 +686,7 @@ void delStudent() {
     printf("请输入学号\n");
     int studentID;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &studentID);
+        scanf_s("%d", &studentID);
     #else
         scanf("%d", &studentID);
     #endif
@@ -723,7 +723,7 @@ void showScoreBySubject() {
     }
     int subjectIndex;
     #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-        scanf_s("%d", sizeof(int), &subjectIndex);
+        scanf_s("%d", &subjectIndex);
     #else
         scanf("%d", &subjectIndex);
     #endif
@@ -837,7 +837,7 @@ int main ()
 
         int flg;
         #ifdef _MSC_VER // 这种ifdef是用来区分vc和gcc环境的
-            scanf_s("%d", sizeof(int), &flg);
+            scanf_s("%d", &flg);
         #else
             scanf("%d", &flg);
         #endif
