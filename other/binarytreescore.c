@@ -819,7 +819,7 @@ int main ()
         SetConsoleOutputCP(936); // 把控制台的输出编码设为 936 ，就是 gbk
     #else
         char *LANG = getenv("LANG"); // 获取当前终端的编码
-        system("export LANG zh_CN.GBK"); // 把当前终端的编码设为 gbk
+        system("export LANG=\"zh_CN.GBK\""); // 把当前终端的编码设为 gbk
     #endif
 
     init(); // 初始化数据
@@ -869,8 +869,9 @@ int main ()
         SetConsoleOutputCP(chcpOutput); // 程序退出的时候把控制台的输出编码还原为原本的编码
     #else
         char chatset[32];
-        strcpy(chatset, "export LANG ");
+        strcpy(chatset, "export LANG=\"");
         strcat(chatset, LANG); // 拼接命令
+        strcpy(chatset, "\"");
         system(chatset); // 把当前终端的编码还原为原本的编码
     #endif
 
