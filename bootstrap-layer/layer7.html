@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在线尝试 Bootstrap 实例</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Hello, world!</h1>
+    <script>
+        ; var bslayer = (function () {
+            var layerbtn = (function () {
+                function layerbtn(config) {
+                    let dom = document.createElement('button');
+
+                    dom.classList.add('btn');
+                    dom.classList.add('btn-' + config.options);
+                    if (config.size != 'default') {
+                        dom.classList.add('btn-' + config.options);
+                    }
+                    dom.dataset.dismiss = 'modal';
+                    dom.innerHTML = config.text;
+                    this.CLOSE = 1;
+                    return dom;
+                }
+
+                layerbtn.CLOSE = 1; // 这种算是 const 了
+                layerbtn.SUBMIT = 2;
+                // 样式 尺寸 状态 formid 如果为true 会自动提交模态框里第一个form表单
+                // 标签 属性 事件 内容
+                return layerbtn;
+            }());
+
+            let _instance = null;
+            var layerArr = [];
+            function bslayer() {
+                console.log('bootstrap-layer init');
+                this.TYPE_TXT = 1;
+                this.TYPE_HTML = 2;
+                // iframe remote
+
+                // btn close submit
+            }
+            function isObject(obj) {
+                return Object.prototype.toString.call(obj) === '[object Object]'
+            }
+            function mergeObj(obj1, obj2) {
+                return Object.assign({}, obj1, obj2);
+            }
+            function margeConfig(config) {
+                let defaultConfig = {
+                    modal: {
+                        id: null,
+                        closeBtn: true, // true 显示右上角的关闭按钮
+                        size: 'sm', // 小的尺寸
+                        animation: true, // 显示动画
+                        backdrop: 'static', // true 有遮罩层，点击背景关闭； false 没有遮罩层，点击背景不关闭；static 有遮罩层，点击背景不关闭
+                        keyboard: false, // true 键盘上的 esc 键被按下时关闭模态框
+                        event: {
+                            show: null, // show.bs.modal	show 方法调用之后立即触发该事件。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                            shown: null, // shown.bs.modal	此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                            hide: null, // hide.bs.modal	hide 方法调用之后立即触发该事件。
+                            hidden: null, // hidden.bs.modal	此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
+                        },
+                    },
+                    title: 'info',
+                    content: {
+                        type: _instance.TYPE_TXT,
+                        value: '',
+                    },
+                    footer: null,
+                };
+                // return mergeObj({}, defaultConfig, config);
+                return config;
+            }
+            function createModal(config) {
+                let modalDOM = document.createElement('div'); // class="modal fade" tabindex="-1" role="dialog"
+                modalDOM.classList.add('modal');
+                if (config.modal.animation == true) {
+                    modalDOM.classList.add('fade');
+                }
+                modalDOM.setAttribute('tabindex', '-1');
+                modalDOM.setAttribute('role', 'dialog');
+                // modalDOM.setAttribute('id', modalID);
+
+                let modalDialog = document.createElement('div'); // class="modal-dialog" role="document"
+                modalDialog.classList.add('modal-dialog');
+                modalDialog.setAttribute('role', 'document');
+                if (config.modal.size === 'sm') {
+                    modalDialog.classList.add('modal-sm');
+                }
+
+                let modalContent = document.createElement('div'); // class="modal-content"
+                modalContent.classList.add('modal-content');
+
+                let modalHeader = createHeader(config);
+                let modalBody = createBody(config);
+                let modalFooter = createFooter(config);
+
+                modalDOM.appendChild(modalDialog);
+                modalDialog.appendChild(modalContent);
+                if (modalHeader != null) {
+                    modalContent.appendChild(modalHeader);
+                }
+                modalContent.appendChild(modalBody);
+                if (modalFooter != null) {
+                    modalContent.appendChild(modalFooter);
+                }
+                return modalDOM;
+            }
+            function createHeader(config) {
+                if (typeof config.title != 'string' && config.modal.closeBtn != true) {
+                    return null;
+                }
+                let modalHeader = document.createElement('div'); // class="modal-header"
+                modalHeader.classList.add('modal-header');
+                if (config.modal.closeBtn == true) {
+                    modalHeader.appendChild((function () {
+                        let dom = document.createElement('button');
+                        dom.classList.add('close');
+                        dom.dataset.dismiss = 'modal';
+                        dom.setAttribute('aria-label', 'Close');
+                        let span = document.createElement('span');
+                        span.setAttribute('aria-hidden', 'true');
+                        span.innerHTML = '&times;';
+                        dom.appendChild(span);
+                        return dom;
+                    })());
+                }
+                if (config.title) {
+                    modalHeader.appendChild((function (title) {
+                        let dom = document.createElement('h4');
+                        dom.classList.add('modal-title');
+                        dom.innerHTML = title;
+                        return dom;
+                    })(config.title));
+                } else {
+                    modalHeader.style.padding = '10px';
+                }
+                return modalHeader
+            }
+            function createBody(config) {
+                let content = config.content;
+                let modalBody = document.createElement('div'); // class="modal-body"
+                modalBody.classList.add('modal-body');
+                modalBody.appendChild((function (content) {
+                    let dom = document.createElement('p');
+                    dom.innerHTML = content;
+                    return dom;
+                })(content));
+                return modalBody;
+            }
+            function createFooter(config) {
+                if (!config.footer || !Array.isArray(config.footer)) {
+                    return null
+                }
+                let modalFooter = document.createElement('div'); // class="modal-footer"
+                modalFooter.classList.add('modal-footer');
+                for (let i = 0, len = config.footer.length; i < len; i++) {
+                    modalFooter.appendChild((function (btn) {
+                        return createButton(btn);
+                    })(config.footer[i]));
+                }
+                return modalFooter;
+            }
+            function createButton(btn) {
+                let dom = document.createElement('button');
+                if (btn.class && Array.isArray(btn.class)) {
+                    for (i in btn.class) {
+                        dom.classList.add(btn.class[i]);
+                    }
+                } else {
+                    dom.classList.add('btn');
+                    if (btn.options && ['default', 'primary', 'success', 'info', 'warning', 'danger', 'link'].indexOf(btn.options) > -1) {
+                        dom.classList.add('btn-' + btn.options);
+                    } else {
+                        dom.classList.add('btn-default');
+                    }
+                    if (btn.size && ['lg', 'sm', 'xs'].indexOf(btn.size) > -1) {
+                        dom.classList.add('btn-' + btn.size);
+                    }
+                }
+                if (btn.closeModal) {
+                    dom.dataset.dismiss = 'modal';
+                }
+                if (btn.otherAttr && isObject(btn.otherAttr)) {
+                    for (i in btn.otherAttr) {
+                        dom.setAttribute(i, btn.otherAttr[i]);
+                    }
+                }
+                if (btn.dataset && isObject(btn.dataset)) {
+                    for (i in btn.dataset) {
+                        dom.dataset[i] = btn.dataset[i];
+                    }
+                }
+                dom.onclick = btn.click;
+                dom.innerHTML = btn.text;
+                return dom;
+            }
+            bslayer.prototype.open = function (config) {
+                console.log(config);
+                let title = config.title;
+                let content = config.content;
+                let modalID;
+                if (config.modal.id == null) {
+                    let timestamp = new Date().getTime();
+                    modalID = 'myModal_' + timestamp;
+                } else {
+                    modalID = config.modal.id;
+                }
+
+                // let modalDOM;
+
+                /*
+                    modal
+                        dialog
+                            content
+                                header
+                                    button close
+                                    title
+                                body
+                                footer
+                                    button close
+                                    button confirm
+                */
+                let modalDOM = createModal(config);
+                modalDOM.setAttribute('id', modalID);
+                document.body.appendChild(modalDOM);
+
+                let modalObj = $('#' + modalID);
+
+                if (config.modal.event.show) {
+                    modalObj.on('show.bs.modal', config.modal.event.show);
+                }
+                if (config.modal.event.shown) {
+                    modalObj.on('shown.bs.modal', config.modal.event.shown);
+                }
+                if (config.modal.event.hide) {
+                    modalObj.on('hide.bs.modal', config.modal.event.hide);
+                }
+                modalObj.on('hidden.bs.modal', function (e) {
+                    // console.log('p hidden');
+                    if (config.modal.event.hidden) {
+                        config.modal.event.hidden(e);
+                    }
+                    // console.log(modalObj);
+                    modalObj.remove();
+                });
+
+                // modalObj.modal('show');
+                let options = {
+                    backdrop: config.modal.backdrop,
+                    keyboard: config.modal.keyboard,
+                    show: true,
+                    remote: false,
+                };
+                modalObj.modal(options);
+
+                layerArr[modalID] = modalObj;
+
+                return modalID;
+            }
+            bslayer.prototype.close = function (index) {
+                if (layerArr[index]) {
+                    console.log(index, layerArr[index], layerArr);
+                    layerArr[index].modal('hide');
+                    // if (document.getElementById(layerArr[index].attr('id'))) {
+                    //     layerArr[index].remove();
+                    // }
+                    delete layerArr[index];
+                }
+            }
+            bslayer.prototype.getLayer = function (index) {
+                if (layerArr[index]) {
+                    return layerArr[index];
+                }
+                return null;
+            }
+            return function () {
+                if (_instance === null) {
+                    _instance = new bslayer();
+                }
+                return _instance;
+            }();
+        }());
+        var a = bslayer.open({
+            modal: {
+                closeBtn: true, // true 显示右上角的关闭按钮
+                size: 'sm', // 小的尺寸
+                animation: true, // 显示动画
+                backdrop: 'static', // true 点击背景时关闭模态框
+                keyboard: false, // true 键盘上的 esc 键被按下时关闭模态框
+                event: {
+                    show: function (e) {
+                        console.log('show.bs.modal', e);
+                    }, // show.bs.modal	show 方法调用之后立即触发该事件。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                    shown: function (e) {
+                        console.log('shown.bs.modal', e);
+                    }, // shown.bs.modal	此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                    hide: function (e) {
+                        console.log('hide.bs.modal', e);
+                    }, // hide.bs.modal	hide 方法调用之后立即触发该事件。
+                    hidden: function (e) {
+                        console.log('hidden.bs.modal', e);
+                    }, // hidden.bs.modal	此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
+                },
+            },
+            // title: 'bslayer title',
+            content: 'bslayer content',
+            footer: [ // 从左至右排列 还要考虑 footer 的 style
+                {
+                    text: 'close',
+                    // class: ['btn', 'btn-default'],
+                    options: 'default', // default primary success info warning danger link
+                    size: 'xs', // lg default sm xs
+                    click: function(e) {
+                        console.log(e);
+                        console.log(this);
+                    },
+                    closeModal: true,
+                    // otherAttr: {
+                    //     disabled: 'disabled',
+                    // },
+                },
+                {
+                    text: 'success',
+                    // class: ['btn', 'btn-default'],
+                    options: 'success', // default primary success info warning danger link
+                    // size: 'sm', // lg default sm xs
+                    click: function(e) {
+                        console.log(e);
+                        console.log(this);
+                    },
+                    closeModal: false,
+                    otherAttr: {
+                        disabled: 'disabled',
+                    },
+                    dataset: {
+                        test: 'testdata',
+                    },
+                }
+            ],
+        });
+        // 这是一个数组，class text onclick data-isform ；yes no ok close confirm 
+        // a = undefined;
+        console.log(bslayer.TYPE_HTML);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>example</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        h3,
+        p {
+            margin: 5px 0;
+        }
+
+        #example {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="example" class="example">
+
+        <textarea rows="10" cols="50" data-title="标题">
+alert(12);
+alert(12);
+alert(12);
+alert(12);
+</textarea>
+
+        <textarea rows="10" cols="50" data-title="标题" data-desc="这是描述">
+//在这里面输入任何合法的js语句
+</textarea>
+
+        <textarea rows="10" cols="50" data-title="标题" data-desc="这是描述">
+//在这里面输入任何合法的js语句
+</textarea>
+
+        <textarea rows="10" cols="50" data-title="标题" data-desc="这是描述">
+//在这里面输入任何合法的js语句
+</textarea>
+        <textarea rows="10" cols="50" data-title="标题" data-desc="这是描述">
+//在这里面输入任何合法的js语句
+</textarea>
+
+    </div>
+    <script>
+        ; (function () {
+            let exampleList = document.querySelectorAll("#example textarea");
+            var i = 0;
+            exampleList.forEach(function (item) {
+                i++;
+                console.log(item.value);
+                console.log(item.dataset['title']);
+                let div = document.createElement('div');
+                let title = document.createElement('h3');
+                let id = i + '. ' + item.dataset['title'];
+                title.appendChild((function (title) {
+                    let a = document.createElement('a');
+                    a.setAttribute('href', '#' + title);
+                    a.innerText = title;
+                    return a;
+                })(id));
+                title.setAttribute('id', id);
+                let textarea = document.createElement('textarea');
+                textarea.value = item.value.trim();
+                textarea.setAttribute('rows', '10');
+                textarea.setAttribute('cols', '80');
+                let button = document.createElement('button');
+                button.innerText = 'run';
+                button.onclick = function () {
+                    try {
+                        new Function(this.parentElement.querySelector('textarea').value)();
+                    } catch (e) {
+                        alert('error:' + e.message);
+                    }
+                };
+                div.appendChild(title);
+                if (item.dataset['desc']) {
+                    div.appendChild((function (desc) {
+                        let a = document.createElement('p');
+                        a.innerText = desc;
+                        return a;
+                    })(item.dataset['desc']));
+                }
+                div.appendChild(textarea);
+                div.appendChild(document.createElement('br'));
+                div.appendChild(button);
+                div.appendChild(document.createElement('hr'));
+                document.body.appendChild(div);
+            });
+        })();
+    </script>
+</body>
+
+</html>

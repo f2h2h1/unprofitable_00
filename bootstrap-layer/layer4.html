@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8"> 
+   <title>在线尝试 Bootstrap 实例</title>
+   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <h1>Hello, world!</h1>
+    <script>
+        ;var bslayer = (function() {
+            let _instance = null;
+            var layerArr = [];
+            function bslayer() {
+                console.log('bootstrap-layer init');
+                this.TYPE_TXT = 1;
+                this.TYPE_HTML = 2;
+            }
+            function isObject(obj) {
+                return Object.prototype.toString.call(obj) === '[object Object]'
+            }
+            function mergeObj(target, ...arg) {
+                return arg.reduce((acc, cur) => {
+                    return Object.keys(cur).reduce((subAcc, key) => {
+                        const srcVal = cur[key];
+                        if (isObject(srcVal)) {
+                            subAcc[key] = mergeObj(subAcc[key] ? subAcc[key] : {}, srcVal);
+                        } else if (Array.isArray(srcVal)) {
+                            // series: []，下层数组直接赋值
+                            subAcc[key] = srcVal.map((item, idx) => {
+                                if (isObject(item)) {
+                                    const curAccVal = subAcc[key] ? subAcc[key] : [];
+                                    return mergeObj(curAccVal[idx] ? curAccVal[idx] : {}, item);
+                                } else {
+                                    return item;
+                                }
+                            });
+                        } else {
+                            subAcc[key] = srcVal;
+                        }
+                        return subAcc;
+                    }, acc);
+                }, target);
+            }
+            function margeConfig(config) {
+                let defaultConfig = {
+                    modal: {
+                        id: null,
+                        closeBtn: true, // true 显示右上角的关闭按钮
+                        size: 'sm', // 小的尺寸
+                        animation: true, // 显示动画
+                        backdrop: true, // true 点击背景时关闭模态框
+                        keyboard: true, // true 键盘上的 esc 键被按下时关闭模态框
+                        event: {
+                            show: null, // show.bs.modal	show 方法调用之后立即触发该事件。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                            shown: null, // shown.bs.modal	此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                            hide: null, // hide.bs.modal	hide 方法调用之后立即触发该事件。
+                            hidden: null, // hidden.bs.modal	此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
+                        },
+                    },
+                    title: 'info',
+                    content: {
+                        type: _instance.TYPE_TXT,
+                        value: '',
+                    },
+                    footer: null,
+                };
+                return mergeObj({}, defaultConfig, config);
+            }
+            function createModal(config) {
+                let modalDOM = document.createElement('div'); // class="modal fade" tabindex="-1" role="dialog"
+                modalDOM.classList.add('modal');
+                if (config.modal.animation == true) {
+                    modalDOM.classList.add('fade');
+                }
+                modalDOM.setAttribute('tabindex', '-1');
+                modalDOM.setAttribute('role', 'dialog');
+                // modalDOM.setAttribute('id', modalID);
+
+                let modalDialog = document.createElement('div'); // class="modal-dialog" role="document"
+                modalDialog.classList.add('modal-dialog');
+                modalDialog.setAttribute('role', 'document');
+                if (config.modal.size === 'sm') {
+                    modalDialog.classList.add('modal-sm');
+                }
+
+                let modalContent = document.createElement('div'); // class="modal-content"
+                modalContent.classList.add('modal-content');
+
+                let modalHeader = createHeader(config);
+                let modalBody = createBody(config);
+                let modalFooter = createFooter(config);
+
+                modalDOM.appendChild(modalDialog);
+                modalDialog.appendChild(modalContent);
+                modalContent.appendChild(modalHeader);
+                modalContent.appendChild(modalBody);
+                modalContent.appendChild(modalFooter);
+                return modalDOM;
+            }
+            function createHeader(config) {
+                let title = config.title;
+                let modalHeader = document.createElement('div'); // class="modal-header"
+                modalHeader.classList.add('modal-header');
+                if (config.modal.closeBtn == true) {
+                    modalHeader.appendChild((function(){
+                        let dom = document.createElement('button');
+                        dom.classList.add('close');
+                        dom.dataset.dismiss = 'modal';
+                        dom.setAttribute('aria-label', 'Close');
+                        let span = document.createElement('span');
+                        span.setAttribute('aria-hidden', 'true');
+                        span.innerHTML = '&times;';
+                        dom.appendChild(span);
+                        return dom;
+                    })());
+                }
+                modalHeader.appendChild((function(title){
+                    let dom = document.createElement('h4');
+                    dom.classList.add('modal-title');
+                    dom.innerHTML = title;
+                    return dom;
+                })(title));
+                return modalHeader
+            }
+            function createBody(config) {
+                let content = config.content;
+                let modalBody = document.createElement('div'); // class="modal-body"
+                modalBody.classList.add('modal-body');
+                modalBody.appendChild((function(content){
+                    let dom = document.createElement('p');
+                    dom.innerHTML = content;
+                    return dom;
+                })(content));
+                return modalBody;
+            }
+            function createFooter(config) {
+                let modalFooter = document.createElement('div'); // class="modal-footer"
+                modalFooter.classList.add('modal-footer');
+                // <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                // <button type="button" class="btn btn-primary">Save changes</button>
+                modalFooter.appendChild((function(){
+                    let dom = document.createElement('button');
+                    dom.classList.add('btn');
+                    dom.classList.add('btn-default');
+                    dom.dataset.dismiss = 'modal';
+                    dom.innerHTML = 'Close';
+                    return dom;
+                })());
+                return modalFooter;
+            }
+            bslayer.prototype.open = function (config) {
+                console.log(config);
+                let title = config.title;
+                let content = config.content;
+                let modalID;
+                if (config.modal.id == null) {
+                    let timestamp = new Date().getTime();
+                    modalID = 'myModal_' + timestamp;
+                } else {
+                    modalID = config.modal.id;
+                }
+
+                // let modalDOM;
+
+                /*
+                    modal
+                        dialog
+                            content
+                                header
+                                    button close
+                                    title
+                                body
+                                footer
+                                    button close
+                                    button confirm
+                */
+                let modalDOM = createModal(config);
+                modalDOM.setAttribute('id', modalID);
+                document.body.appendChild(modalDOM);
+
+                let modalObj = $('#' + modalID);
+
+                if (config.modal.event.show) {
+                    modalObj.on('show.bs.modal', config.modal.event.show);
+                }
+                if (config.modal.event.shown) {
+                    modalObj.on('shown.bs.modal', config.modal.event.shown);
+                }
+                if (config.modal.event.hide) {
+                    modalObj.on('hide.bs.modal', config.modal.event.hide);
+                }
+                modalObj.on('hidden.bs.modal', function (e) {
+                    // console.log('p hidden');
+                    if (config.modal.event.hidden) {
+                        config.modal.event.hidden(e);
+                    }
+                    // console.log(modalObj);
+                    modalObj.remove();
+                });
+
+                modalObj.modal('show');
+
+                layerArr[modalID] = modalObj;
+
+                return modalID;
+            }
+            bslayer.prototype.close = function(index) {
+                if (layerArr[index]) {
+                    console.log(index, layerArr[index], layerArr);
+                    layerArr[index].modal('hide');
+                    // if (document.getElementById(layerArr[index].attr('id'))) {
+                    //     layerArr[index].remove();
+                    // }
+                    delete layerArr[index];
+                }
+            }
+            bslayer.prototype.getLayer = function(index) {
+                if (layerArr[index]) {
+                    return layerArr[index];
+                }
+                return null;
+            }
+            return function() {
+                if (_instance === null) {
+                    _instance = new bslayer();
+                }
+                return _instance;
+            }();
+        }());
+        var a = bslayer.open({
+            modal: {
+                closeBtn: true, // true 显示右上角的关闭按钮
+                size: 'sm', // 小的尺寸
+                animation: true, // 显示动画
+                backdrop: true, // true 点击背景时关闭模态框
+                keyboard: true, // true 键盘上的 esc 键被按下时关闭模态框
+                event: {
+                     show: function(e) {
+                        console.log('show.bs.modal', e);
+                     }, // show.bs.modal	show 方法调用之后立即触发该事件。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                     shown: function(e) {
+                        console.log('shown.bs.modal', e);
+                     }, // shown.bs.modal	此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发。如果是通过点击某个作为触发器的元素，则此元素可以通过事件的 relatedTarget 属性进行访问。
+                     hide: function(e) {
+                        console.log('hide.bs.modal', e);
+                     }, // hide.bs.modal	hide 方法调用之后立即触发该事件。
+                     hidden: function(e) {
+                        console.log('hidden.bs.modal', e);
+                     }, // hidden.bs.modal	此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
+                },
+            },
+            title: 'bslayer title',
+            content: 'bslayer content',
+            footer: null,
+        });
+        // a = undefined;
+        console.log(bslayer.TYPE_HTML);
+    </script>
+</body>
+</html>
