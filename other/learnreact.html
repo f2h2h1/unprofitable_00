@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World</title>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://www.layuicdn.com/layer-v3.5.1/layer.js"></script>
+    </head>
+    <body>
+    <div class="container">
+        <div id="complexDrapDownList"></div>
+        <div id="complexPrice"></div>
+        <div id="complexIndustry"></div>
+    </div>
+    <script type="text/babel">
+        class ComplexBox extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    listdata: props.modeldata.listdata,
+                };
+            }
+            handleChange = (tagID) => {
+                let listdata = this.state.listdata;
+                for (let i in listdata) {
+                    if (listdata[i].id == tagID) {
+                        if (listdata[i].checked) {
+                            listdata[i].checked = false;
+                        } else {
+                            listdata[i].checked = true;
+                        }
+                        break;
+                    }
+                }
+                this.setState({listdata:listdata});
+            }
+            getCheckboxList = () => {
+                let listdata = this.state.listdata;
+                let ret = [];
+                for (let i in listdata) {
+                    if (listdata[i].checked && listdata[i].checked == true && !listdata[i].delete) {
+                        ret.push(listdata[i].id);
+                    }
+                }
+                return ret;
+            }
+            arrowDown = () => {
+                let listdata = this.state.listdata;
+                let checkboxList = this.getCheckboxList();
+                if (!checkboxList.length || checkboxList.length == 0) {
+                    layer.msg('没有选中的项');
+                    return;
+                }
+                if (checkboxList.length != 1) {
+                    layer.msg('修改排序时只能选中一项');
+                    return;
+                }
+                if (listdata.length <= 1) {
+                    return;
+                }
+                let checkboxid = checkboxList[0];
+                for (let i = 0; i < listdata.length; i++) {
+                    if (listdata[i].id == checkboxid) {
+                        if (i + 1 == listdata.length) {
+                            break;
+                        }
+                        let temp = listdata[i];
+                        temp.checked = true;
+                        for (let j = i + 1; j < listdata.length; j++) {
+                            if (!listdata[j].delete) {
+                                listdata[i] = listdata[j];
+                                listdata[j] = temp;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                this.setState({listdata:listdata});
+            }
+            arrowUp = () => {
+                let listdata = this.state.listdata;
+                let checkboxList = this.getCheckboxList();
+                if (!checkboxList.length || checkboxList.length == 0) {
+                    layer.msg('没有选中的项');
+                    return;
+                }
+                if (checkboxList.length != 1) {
+                    layer.msg('修改排序时只能选中一项');
+                    return;
+                }
+                if (listdata.length <= 1) {
+                    return;
+                }
+                let checkboxid = checkboxList[0];
+                for (let i = 0; i < listdata.length; i++) {
+                    if (listdata[i].id == checkboxid) {
+                        if (i == 0) {
+                            break;
+                        }
+                        let temp = listdata[i];
+                        temp.checked = true;
+                        for (let j = i - 1; j >= 0; j--) {
+                            if (!listdata[j].delete) {
+                                listdata[i] = listdata[j];
+                                listdata[j] = temp;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                this.setState({listdata:listdata});
+            }
+            openEditBox = (tagID) => {
+                var value = '';
+                var listdata = this.state.listdata;
+                var that = this;
+                for (let i in listdata) {
+                    if (listdata[i].id == tagID) {
+                        value = listdata[i].name;
+                        break;
+                    }
+                }
+                layer.prompt({title: '编辑', value: value, formType: 0}, function(value, index) {
+                    for (let i in listdata) {
+                        if (listdata[i].id == tagID) {
+                            listdata[i].name = value;
+                            break;
+                        }
+                    }
+                    that.setState({listdata:listdata});
+                    layer.close(index);
+                });
+            }
+            pushData = (newValue) => {
+                let created_at = Math.round(new Date().getTime()/1000);
+                var array = new Uint32Array(1);
+                window.crypto.getRandomValues(array);
+                let id = '' + array[0] + new Date().getTime();
+                let listdata = this.state.listdata;
+                listdata.push({
+                    id:id,
+                    name:newValue,
+                    created_at:created_at,
+                    order:1,
+                    new: true,
+                });
+                this.setState({listdata:listdata});
+            }
+            render = () => {
+                const listdata = this.state.listdata;
+                return <div className="well" style={{maxHeight:'500px',overflow:'auto'}}>
+                        <p>添加和组织列表选项。勾选—个选项作为默认选中，未勾选则默认为第一个。</p>
+                        <div className="btn-group btn-group-xs">
+                            <button type="button" className="btn btn-default" onClick={
+                                () => {
+                                var that = this;
+                                layer.prompt({title: '添加', formType: 0}, function(value, index) {
+                                    that.pushData(value);
+                                    layer.close(index);
+                                });}}>
+                                <span className="glyphicon glyphicon-plus" style={{color:'green'}}></span>
+                            </button>
+                            <button type="button" className="btn btn-default" onClick={
+                                () => {
+                                    let checkboxList = this.getCheckboxList();
+                                    let listdata = this.state.listdata;
+                                    if (!checkboxList.length || checkboxList.length == 0) {
+                                        layer.msg('没有选中的项');
+                                        return;
+                                    }
+                                    for (let i = 0; i < checkboxList.length; i++) {
+                                        for (let j = 0, len = listdata.length; j < len; j++) {
+                                            if (checkboxList[i] == listdata[j].id) {
+                                                if (listdata[j].new) { // 未保存的新增
+                                                    listdata.splice(j, 1);
+                                                    len = listdata.length;
+                                                    j--;
+                                                } else {
+                                                    listdata[j].delete = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setState({listdata:listdata});
+                                }}>
+                                <span className="glyphicon glyphicon-remove" style={{color:'red'}}></span>
+                            </button>
+                            <button type="button" className="btn btn-default" onClick={this.arrowDown}>
+                                <span className="glyphicon glyphicon-arrow-down"></span>
+                            </button>
+                            <button type="button" className="btn btn-default" onClick={this.arrowUp}>
+                                <span className="glyphicon glyphicon-arrow-up"></span>
+                            </button>
+                            <button type="button" className="btn btn-default" onClick={
+                                () => {
+                                var that = this;
+                                layer.prompt({
+                                    formType: 2,
+                                    title: '添加多个',
+                                    area: ['400px', '125px'], // 自定义文本域宽高
+                                    success: function(layero, index) {
+                                        layero.find(".layui-layer-content").prepend("<p>输入选项值<每行一个></p>");
+                                    }
+                                }, function(value, index, elem) {
+                                    let list = value.trim().split(/[\n]/);
+                                    for (let i = 0; i < list.length; i++) {
+                                        that.pushData(list[i]);
+                                    }
+                                    layer.close(index);
+                                });}}>
+                                添加多个
+                            </button>
+                        </div>
+                        <p></p>
+                        <ul className="list-group">
+                            {listdata.map((item) => {
+                                if (item.delete) {
+                                    return '';
+                                } else {
+                                    return <li key={item.id} className="list-group-item">
+                                        <label>
+                                            <input id="" type="checkbox" onChange={this.handleChange.bind(this, item.id)} checked={item.checked ? true : false}/>
+                                            &#160;{item.name}
+                                        </label>
+                                        <span id="" className="glyphicon glyphicon-pencil pull-right" style={{cursor:'pointer'}} onClick={this.openEditBox.bind(this, item.id)}></span>
+                                    </li>
+                                }
+                            })}
+                        </ul>
+                        </div>;
+            }
+        }
+        class ComplexDrapDownList extends React.Component {
+            domp = React.createRef();
+            constructor(props) {
+                super(props);
+                this.state = {
+                    listdata: props.modeldata.listdata,
+                };
+            }
+            openComplexBox = () => {
+                console.log(this);
+                var modeldata = this.props.modeldata;
+                var that = this;
+                layer.open({
+                    type: 1,
+                    title: '编辑' + this.props.modeldata.label + '选项',
+                    skin: 'layui-layer-rim', // 加上边框
+                    content: '<div style="width:516px"></div>',
+                    offset: '10px',
+                    success: function(layero, index) {
+                        ReactDOM.render(<ComplexBox modeldata={modeldata} ref={that.domp}/>,
+                            layero[0].querySelector('.layui-layer-content'),
+                        );
+                    },
+                    btn: ['确认', '取消'],
+                    yes: function(index, layero) {
+                        layer.close(index);
+                    },
+                    btn2: function(index, layero) {
+                    },
+                    end: function() {
+                        that.setState({listdata:that.domp.current.state.listdata});
+                    },
+                });
+            }
+            render = () => {
+                const listdata = this.state.listdata;
+                return <div className="form-group">
+                    <label htmlFor={this.props.modeldata.id}>{this.props.modeldata.label}</label>
+                    <span id={this.props.labelid} style={{color:'#169bd5',float:'right',marginRight:'10px'}} onClick={this.openComplexBox}>+编辑</span>
+                    <select id={this.props.modeldata.id} className="form-control" name={this.props.modeldata.modelname} >
+                        {listdata.map((item) => {
+                            if (item.delete) {
+                                return '';
+                            } else {
+                                return <option key={item.id} value={item.id} >{item.name}</option>
+                            }
+                        })}
+                    </select>
+                </div>;
+            }
+        }
+        class ComplexPrice extends ComplexDrapDownList {
+            constructor(props) {
+                super(props);
+                this.state.priceList = [{id:new Date().getTime(), price:0}];
+            }
+            render = () => {
+                const listdata = this.state.listdata;
+                return <div className="row">
+                    <div className="col-md-12">
+                        <div className="row">
+                            <div className="col-xs-6">
+                                <label htmlFor="name">{this.props.modeldata.label}</label>
+                                <span id={this.props.labelid} style={{color:'#169bd5',float:'right',marginRight:'10px'}} onClick={this.openComplexBox}>+编辑</span>
+                            </div>
+                            <div className="col-xs-5">
+                            </div>
+                            <div className="col-xs-1">
+                            </div>
+                        </div>
+                        {
+                            // [...Array(this.state.priceCount)]
+                            this.state.priceList.map((item, index) => {
+                                return (
+                                    <div className="row" key={item.id}>
+                                        <div className="col-xs-6">
+                                            <div className="form-group">
+                                                <select className="form-control" name={this.props.modeldata.modelname}>
+                                                    {listdata.map((item) => {
+                                                        if (item.delete) {
+                                                            return '';
+                                                        } else {
+                                                            return <option key={item.id} value={item.id} >{item.name}</option>
+                                                        }
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="col-xs-5">
+                                            <input className="form-control" type="number" value={item.value == 0 ? '' : item.value} />
+                                        </div>
+                                        <div className="col-xs-1">
+                                            {
+                                                index == 0 ?
+                                                    <span className="glyphicon glyphicon-plus" onClick={
+                                                        () => {
+                                                            let priceList = this.state.priceList;
+                                                            priceList.push({id:new Date().getTime(), price:0});
+                                                            console.log(priceList);
+                                                            this.setState({priceList:priceList});
+                                                        }
+                                                    }></span> :
+                                                    <span className="glyphicon glyphicon-minus" onClick={
+                                                        () => {
+                                                            let priceList = this.state.priceList;
+                                                            console.log(priceList);
+                                                            for (let i = 0; i < priceList.length; i++) {
+                                                                console.log(item, priceList[i]);
+                                                                if (priceList[i].id == item.id) {
+                                                                    priceList.splice(i, 1);
+                                                                    break;
+                                                                }
+                                                            }
+                                                            console.log(priceList);
+                                                            this.setState({priceList:priceList});
+                                                        }
+                                                    }></span>
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>;
+            }
+        }
+        class ComplexIndustry extends ComplexDrapDownList {
+            render = () => {
+                const listdata = this.state.listdata;
+                return <div className="form-group">
+                    <label>{this.props.modeldata.label}</label>
+                    <span style={{color:'#169bd5',float:'right',marginRight:'10px'}} onClick={this.openComplexBox}>+编辑</span>
+                    <div style={{display:'flex', flexWrap: 'wrap', alignItems: 'baseline'}}>
+                        {listdata.map((item) => {
+                            if (item.delete) {
+                                return '';
+                            } else {
+                                return <div className="checkbox" key={item.id}>
+                                    <label><input type="checkbox" value={item.id} />{item.name}</label>
+                                    &#160;&#160;
+                                </div>
+                            }
+                        })}
+                    </div>
+                </div>;
+            }
+        }
+        ReactDOM.render(<ComplexDrapDownList modeldata={{
+            id: 123,
+            label: '分类',
+            modelname: 'cate',
+            listdata: [
+            {
+                id:1,
+                name:'产品信息',
+                created_at:123,
+                order:1,
+            },
+            {
+                id:2,
+                name:'数据信息',
+                created_at:1232,
+                order:1,
+            },
+            {
+                id:3,
+                name:'分析团队',
+                created_at:1232,
+                order:1,
+            },
+        ]}}/>,
+            document.getElementById('complexDrapDownList'),
+        );
+        ReactDOM.render(<ComplexPrice modeldata={{
+            id: 124,
+            label: '价格',
+            modelname: 'price[]',
+            listdata: [
+            {
+                id:1,
+                name:'中文版',
+                created_at:123,
+                order:1,
+            },
+            {
+                id:2,
+                name:'英文版',
+                created_at:1232,
+                order:1,
+            },
+            {
+                id:3,
+                name:'电子版',
+                created_at:1232,
+                order:1,
+            },
+        ]}}/>,
+            document.getElementById('complexPrice'),
+        );
+        ReactDOM.render(<ComplexIndustry modeldata={{
+            id: 126,
+            label: '行业',
+            modelname: 'industry[]',
+            listdata: [
+            {
+                id:1,
+                name:'化工及材料',
+                created_at:123,
+                order:1,
+            },
+            {
+                id:2,
+                name:'机械及设备',
+                created_at:1232,
+                order:1,
+            },
+            {
+                id:3,
+                name:'医疗设备及耗材',
+                created_at:1232,
+                order:1,
+            },
+        ]}}/>,
+            document.getElementById('complexIndustry'),
+        );
+    </script>
+    </body>
+</html>
